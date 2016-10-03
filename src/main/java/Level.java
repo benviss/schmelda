@@ -1,19 +1,19 @@
 public class Level {
-  private String level1 =
+  private static String level1 =
 
           "#############??###wwwwwwwwwwwww\n"
-        + "#        #          wwwwwwwwww#\n"
-        + "#     r  #             ####www#\n"
-        + "#      r#   @      #          #\n"
-        + "#    r r                r     ?\n"
-        + "#### #    #   #####           ?\n"
-        + "##   #                        #\n"
-        + "## r  r                       #\n"
-        + "######     # ##               #\n"
-        + "    ##     ####################\n"
+        + "#........#..........wwwwwwwwww#\n"
+        + "#.......#..............####www#\n"
+        + "#.......#...@......#..........#\n"
+        + "#.............................?\n"
+        + "####.#....#...#####...........?\n"
+        + "##...#........................#\n"
+        + "##............................#\n"
+        + "######.....#.##...............#\n"
+        + "    ##.....####################\n"
         + "    ########\n";
 
-private String level2 =
+private static String level2 =
           "##################??###########\n"
         + "#........#.........#..........#\n"
         + "?.....$..#.........########...#\n"
@@ -26,7 +26,7 @@ private String level2 =
         + "    ##.....####################\n"
         + "    ########\n";
 
-private String level3 =
+private static String level3 =
           "###############################\n"
         + "#.............................#\n"
         + "#.............................#\n"
@@ -39,7 +39,7 @@ private String level3 =
         + "    ##.....######???###########\n"
         + "    ########\n";
 
-private String level4 =
+private static String level4 =
           "###############################\n"
         + "#.............................#\n"
         + "#.............................#\n"
@@ -56,10 +56,11 @@ private String level4 =
 
   public static String getLevel(int _level) {
     switch(_level) {
-      case 1: return level1; break;
-      case 2: return level2; break;
-      case 3: return level3; break;
-      case 4: return level4; break;
+      case 1: return level1;
+      case 2: return level2;
+      case 3: return level3;
+      case 4: return level4;
     }
+    return "chain is awesome";
   }
 }

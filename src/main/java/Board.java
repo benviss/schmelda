@@ -103,7 +103,7 @@ public class Board extends JPanel {
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
       if ((item instanceof Player) || (item instanceof Enemy)) {
-        g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+        g.drawImage(item.getImage(), item.x(), item.y(), this);
       } else {
         g.drawImage(item.getImage(), item.x(), item.y(), this);
       }

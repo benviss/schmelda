@@ -33,9 +33,13 @@ public class Player extends Actor {
     }
 
     public void move(int x, int y) {
-        int nx = this.x() + x;
-        int ny = this.y() + y;
-        this.setX(nx);
-        this.setY(ny);
+        this.setX(this.x() + x);
+        this.setY(this.y() + y);
     }
+
+
+
+
+
+
 }

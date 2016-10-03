@@ -15,6 +15,10 @@ public class Board extends JPanel {
   private int playerX = 100;
   private int playerY = 100;
 
+  private static int score = 5;
+
+  public HUD hud = new HUD();
+
   private ArrayList areas = new ArrayList();
   private ArrayList warps = new ArrayList();
   private ArrayList collidables = new ArrayList();
@@ -39,6 +43,10 @@ public class Board extends JPanel {
 
   public int getBoardHeight() {
     return this.h;
+  }
+
+  public static int getScore() {
+    return score;
   }
 
   public final void initWorld() {
@@ -130,6 +138,8 @@ public class Board extends JPanel {
 
         if (key == KeyEvent.VK_LEFT) {
           chain.setMovingLeft();
+
+          hud.heartLabelTwo.setVisible(false);
 
             if(!chain.checkCollidable(collidables,"Left")) {
             chain.move(-chain.getSpace(), 0);

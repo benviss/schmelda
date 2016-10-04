@@ -19,6 +19,7 @@ public class HUD extends JPanel {
     public JLabel heartLabelTwo;
     public JLabel heartLabelThree;
     public JLabel score;
+    public JLabel needKey;
 
     public HUD() {
 
@@ -51,8 +52,13 @@ public class HUD extends JPanel {
       heartLabelThree = new JLabel("", h3, JLabel.CENTER);
       add(heartLabelThree);
 
+      needKey = new JLabel("The Door is Locked!", filler, JLabel.CENTER);
+      needKey.setForeground(Color.white);
+      add(needKey);
+      needKey.setVisible(false);
+      
       score = new JLabel("Score: " + Board.getScore(), filler , JLabel.LEADING);
-      score.setIconTextGap(250);
+      score.setIconTextGap(200);
       score.setForeground(Color.white);
       add(score);
       System.out.println("Initial score");

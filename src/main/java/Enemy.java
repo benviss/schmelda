@@ -125,12 +125,10 @@ Random myRandomGenerator = new Random();
         @Override
         public void run() {
           if(inverse){
-            System.out.println("Left: " + calc);
             move(calc,0);
             stepCounter += calc;
           }
           else {
-            System.out.println("Right: " + calc);
             move(-calc,0);
             stepCounter += calc;
           }
@@ -145,6 +143,45 @@ Random myRandomGenerator = new Random();
       };
       System.out.println(calc);
       this.timer2.schedule(timerTask, 0, 30);
+    }
+
+    public void circleMoveRandom(int speed){
+      TimerTask timerTask = new TimerTask(){
+        @Override
+        public void run() {
+
+          if(ruld == 0){
+            move(calc,0);
+            stepCounter += calc;
+          }
+          else if(ruld == 1){
+            move(0,-calc);
+            stepCounter += calc;
+          }
+          else if(ruld == 2){
+            move(-calc,0);
+            stepCounter += calc;
+          }
+          else{
+            move(0,calc);
+            stepCounter += calc;
+          }
+
+          if( stepCounter > 100)
+          {
+            ruld += 1;
+
+            if(ruld == 4){
+              ruld = 0;
+            }
+
+            stepCounter = 0;
+            calc = myRandomGenerator.nextInt(speed) + 2;
+          }
+
+        }
+      };
+      this.timer.schedule(timerTask, 0, 30);
     }
 
 }

@@ -186,12 +186,11 @@ public class Board extends JPanel {
 
   class TAdapter extends KeyAdapter {
 
+
+
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (completed) {
-            return;
-        }
 
         int key = e.getKeyCode();
 
@@ -236,7 +235,6 @@ public class Board extends JPanel {
             restartLevel();
         }
         if(chain.checkWarp(warps) != -1) {
-          System.out.println("check warp passsed");
           levelCount = chain.checkWarp(warps);
           chain.setNewPosition();
           playerX = chain.x();

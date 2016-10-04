@@ -26,6 +26,7 @@ public class Player extends Actor {
         this.setImage(image);
     }
 
+
     public void setMovement(String _direction) {
       this.moveDirection = _direction;
     }
@@ -42,15 +43,31 @@ public class Player extends Actor {
     }
     public void setMovingUp(){
       movementDirection = movingUp;
+      URL loc = this.getClass().getResource(movementDirection);
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      this.setImage(image);
     }
     public void setMovingRight(){
       movementDirection = movingRight;
+      URL loc = this.getClass().getResource(movementDirection);
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      this.setImage(image);
     }
     public void setMovingDown(){
       movementDirection = movingDown;
+      URL loc = this.getClass().getResource(movementDirection);
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      this.setImage(image);
     }
     public void setMovingLeft(){
       movementDirection = movingLeft;
+      URL loc = this.getClass().getResource(movementDirection);
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      this.setImage(image);
     }
 
     public void move() {

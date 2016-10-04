@@ -177,7 +177,7 @@ public class Board extends JPanel{
   }
   public void buildWorld(Graphics g) {
 
-    g.setColor(new Color(116, 189, 27));
+    g.setColor(new Color(0, 0, 0));
     g.fillRect(0,0,this.getWidth(), this.getHeight());
 
     ArrayList world = new ArrayList();
@@ -199,7 +199,7 @@ public class Board extends JPanel{
       }
 
       if (completed) {
-        g.setColor(new Color(116, 189, 27));
+        g.setColor(new Color(0, 0, 0));
         g.drawString("Completed", 25, 20);
       }
 
@@ -300,16 +300,16 @@ public void startTimer() {
     public void keyReleased(KeyEvent e) {
       int key = e.getKeyCode();
 
-      if (key != KeyEvent.VK_LEFT) {
+      if (key == KeyEvent.VK_LEFT) {
         chain.setDx(0);
       }
-      if (key != KeyEvent.VK_RIGHT) {
+      if (key == KeyEvent.VK_RIGHT) {
         chain.setDx(0);
       }
-      if (key != KeyEvent.VK_UP) {
+      if (key == KeyEvent.VK_UP) {
       chain.setDy(0);
       }
-      if (key != KeyEvent.VK_DOWN) {
+      if (key == KeyEvent.VK_DOWN) {
       chain.setDy(0);
       }
     }

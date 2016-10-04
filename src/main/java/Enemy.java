@@ -5,20 +5,22 @@ import javax.swing.*;
 import java.io.BufferedInputStream;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Random;
 
 public class Enemy extends Actor {
 
 public Timer timer;
-public static Timer weakTimer;
+public Timer timer2 = new Timer();
 private int stepCounter;
 private boolean inverse = false;
-
+private int ruld = 0;
+private int calc = 3;
+Random myRandomGenerator = new Random();
 
     public Enemy(int x, int y) {
         super(x, y);
 
         timer = new Timer();
-        weakTimer = new Timer();
 
         this.collidable = true;
         URL loc = this.getClass().getResource("images/redBlob.gif");
@@ -34,8 +36,7 @@ private boolean inverse = false;
         this.setY(ny);
     }
 
-
-    public void startTimer(){
+    public void leftRightMove(int speed){
       TimerTask timerTask = new TimerTask(){
         @Override
         public void run() {
@@ -56,10 +57,10 @@ private boolean inverse = false;
 
         }
       };
-      this.timer.schedule(timerTask, 0, 50);
+      this.timer.schedule(timerTask, 0, speed);
     }
 
-    public void startTimer2(){
+    public void upDownMove(int speed){
       TimerTask timerTask = new TimerTask(){
         @Override
         public void run() {
@@ -80,7 +81,70 @@ private boolean inverse = false;
 
         }
       };
-      this.timer.schedule(timerTask, 0, 50);
+      this.timer.schedule(timerTask, 0, speed);
+    }
+
+    public void circleMove(int speed){
+      TimerTask timerTask = new TimerTask(){
+        @Override
+        public void run() {
+
+          if(ruld == 0){
+            move(1,0);
+          }
+          else if(ruld == 1){
+            move(0,-1);
+          }
+          else if(ruld == 2){
+            move(-1,0);
+          }
+          else{
+            move(0,1);
+          }
+
+          if( stepCounter > 100)
+          {
+            ruld += 1;
+
+            if(ruld == 4){
+              ruld = 0;
+            }
+
+            stepCounter = 0;
+          }
+
+          stepCounter += 1;
+        }
+      };
+      this.timer.schedule(timerTask, 0, speed);
+    }
+
+    public void leftRightMoveRandom(int max){
+      TimerTask timerTask = new TimerTask(){
+
+        @Override
+        public void run() {
+          if(inverse){
+            System.out.println("Left: " + calc);
+            move(calc,0);
+            stepCounter += calc;
+          }
+          else {
+            System.out.println("Right: " + calc);
+            move(-calc,0);
+            stepCounter += calc;
+          }
+
+          if( stepCounter > 100)
+          {
+            stepCounter = 0;
+            inverse = !inverse;
+            calc = myRandomGenerator.nextInt(max) + 2;
+          }
+        }
+      };
+      System.out.println(calc);
+      this.timer2.schedule(timerTask, 0, 30);
     }
 
 }

@@ -111,8 +111,8 @@ public class Board extends JPanel {
     h = y;
 
     if(enemies.size() > 0){
-      enemies.get(0).startTimer();
-      enemies.get(1).startTimer2();
+      enemies.get(0).leftRightMoveRandom(4);
+      enemies.get(1).circleMove(30);
     }
 
   }
@@ -140,6 +140,28 @@ public class Board extends JPanel {
         g.setColor(new Color(116, 189, 27));
         g.drawString("Completed", 25, 20);
       }
+
+      if(chain.checkEnemy(enemies)){
+
+          if(!invincible){
+
+            if(hud.heartLabelTwo.isVisible() == false)
+              hud.heartLabelOne.setVisible(false);
+
+            else if(hud.heartLabelThree.isVisible() == false)
+              hud.heartLabelTwo.setVisible(false);
+
+            else
+              hud.heartLabelThree.setVisible(false);
+
+            System.out.println("**Timer Starts**");
+            System.out.println("**Take Damage**");
+            InvincibleTimer();
+          }
+
+          invincible = true;
+     }
+
     }
   }
 
@@ -151,18 +173,6 @@ public class Board extends JPanel {
         if (completed) {
             return;
         }
-
-        if(chain.checkEnemy(enemies)){
-
-            if(!invincible){
-              System.out.println("**Timer Starts**");
-              System.out.println("**Take Damage**");
-              InvincibleTimer();
-            }
-
-            invincible = true;
-       }
-
 
         int key = e.getKeyCode();
 

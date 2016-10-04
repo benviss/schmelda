@@ -4,12 +4,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Board extends JPanel {
 
   // Set size to image size
   private final int OFFSET = 32;
   private final int SPACE = 32;
+
 
   // player starting position
   private int playerX = 96;
@@ -18,18 +21,20 @@ public class Board extends JPanel {
   private static int score = 5;
 
   public HUD hud = new HUD();
+  public Timer timer = new Timer();
 
   private ArrayList areas = new ArrayList();
   private ArrayList warps = new ArrayList();
   private ArrayList collidables = new ArrayList();
 
   private Player chain;
-  public ArrayList enemies = new ArrayList();
+  public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
   private int w = 0;
   private int h = 0;
   private int levelCount = 1;
   private boolean completed = false;
+  private boolean invincible = false;
 
   public Board() {
     addKeyListener(new TAdapter());
@@ -88,6 +93,7 @@ public class Board extends JPanel {
         x += SPACE;
       } else if (item == 'e') {
         e = new Enemy(x, y);
+        collidables.add(e);
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
@@ -103,6 +109,12 @@ public class Board extends JPanel {
 
     }
     h = y;
+
+    if(enemies.size() > 0){
+      enemies.get(0).startTimer();
+      enemies.get(1).startTimer2();
+    }
+
   }
   public void buildWorld(Graphics g) {
 
@@ -115,6 +127,7 @@ public class Board extends JPanel {
     world.addAll(warps);
     world.add(chain);
     world.addAll(enemies);
+
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
       if ((item instanceof Player) || (item instanceof Enemy)) {
@@ -130,8 +143,6 @@ public class Board extends JPanel {
     }
   }
 
-
-
   class TAdapter extends KeyAdapter {
 
     @Override
@@ -141,12 +152,23 @@ public class Board extends JPanel {
             return;
         }
 
+        if(chain.checkEnemy(enemies)){
+
+            if(!invincible){
+              System.out.println("**Timer Starts**");
+              System.out.println("**Take Damage**");
+              InvincibleTimer();
+            }
+
+            invincible = true;
+       }
+
+
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
           chain.setMovingLeft();
 
-          hud.heartLabelTwo.setVisible(false);
 
             if(!chain.checkCollidable(collidables,"Left")) {
             chain.move(-chain.getSpace(), 0);
@@ -205,5 +227,16 @@ public class Board extends JPanel {
     }
   }
 
+  public void InvincibleTimer(){
+    TimerTask timerTask = new TimerTask(){
+      @Override
+      public void run() {
+         System.out.println("**Timer Ends**");
+         invincible = false;
+        }
+      };
+
+    this.timer.schedule(timerTask, 3000);
+  }
 
 }

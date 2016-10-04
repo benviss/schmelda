@@ -1,6 +1,6 @@
 import java.awt.Image;
 import java.util.ArrayList;
-
+import java.lang.*;
 
 public class Actor {
 
@@ -141,5 +141,21 @@ public class Actor {
     }
     return false;
 
+  }
+
+  public boolean checkEnemy(ArrayList<Enemy> _allCollidableActors){
+    int x = this.x + 12;
+    int y = this.y - 20;
+
+    for(Actor actor : _allCollidableActors)
+    {
+      if(((Math.abs(actor.x()+16 - x) < 20) && (Math.abs(actor.y()-16 - y) < 20)))
+      {
+        System.out.println("Player x:" + x);
+        System.out.println("Enemy: x:" + actor.x());
+        return true;
+      }
+    }
+    return false;
   }
 }

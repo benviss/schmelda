@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Actor {
 
-  private final int SPACE = 4;
+  private final int SPACE = 8;
 
   private int x;
   private int y;

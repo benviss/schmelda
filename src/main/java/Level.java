@@ -1,6 +1,8 @@
 public class Level {
   private static String level1 =
 
+
+
           "#############??###wwwwwwwwwwwww\n"
         + "#........#..........wwwwwwwwww#\n"
         + "#.......#..............####www#\n"

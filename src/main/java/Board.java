@@ -116,11 +116,14 @@ public class Board extends JPanel {
     g.fillRect(0,0,this.getWidth(), this.getHeight());
 
     ArrayList world = new ArrayList();
-    world.addAll(collidables);
+
     world.addAll(areas);
     world.addAll(warps);
-    world.add(chain);
+    world.addAll(collidables);
     world.addAll(enemies);
+    world.add(chain);
+
+
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
       if ((item instanceof Player) || (item instanceof Enemy)) {

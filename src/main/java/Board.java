@@ -65,7 +65,13 @@ public class Board extends JPanel {
     Tree t;
 
     Warp warp;
+    StatueBottom statueBottom;
+    CobbleStone cobbleStone;
+    CastleWall castleWall;
+    Pillar pillar;
     Water w;
+    StatueTop statueTop;
+
     Enemy e;
     Fire f;
     Path p;
@@ -121,6 +127,26 @@ public class Board extends JPanel {
         areas.add(p);
         warp = new Warp(x, y, item);
         warps.add(warp);
+        x += SPACE;
+      } else if (item == '%') {
+        statueBottom = new StatueBottom(x,y);
+        collidables.add(statueBottom);
+        x += SPACE;
+      } else if (item == '^') {
+        statueTop = new StatueTop(x,y);
+        collidables.add(statueTop);
+        x += SPACE;
+      } else if (item == '+') {
+        cobbleStone = new CobbleStone(x,y);
+        areas.add(cobbleStone);
+        x += SPACE;
+      } else if (item == 'I') {
+        pillar = new Pillar(x,y);
+        collidables.add(pillar);
+        x += SPACE;
+      } else if (item == '|') {
+        castleWall = new CastleWall(x,y);
+        collidables.add(castleWall);
         x += SPACE;
       }
     }

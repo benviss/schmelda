@@ -58,7 +58,7 @@ public class Board extends JPanel {
     Warp warp;
     Water w;
     Enemy e;
-
+    Fire f;
     String currentLevel = Level.getLevel(levelCount);
 
     for (int i = 0; i < currentLevel.length(); i++) {
@@ -99,6 +99,12 @@ public class Board extends JPanel {
         x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
+      }else if (item == 'f') {
+        f = new Fire(x, y);
+        a = new Area(x, y);
+        areas.add(a);
+        collidables.add(f);
+        x += SPACE;
       }
 
     }
@@ -110,11 +116,14 @@ public class Board extends JPanel {
     g.fillRect(0,0,this.getWidth(), this.getHeight());
 
     ArrayList world = new ArrayList();
-    world.addAll(collidables);
+
     world.addAll(areas);
     world.addAll(warps);
-    world.add(chain);
+    world.addAll(collidables);
     world.addAll(enemies);
+    world.add(chain);
+
+
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
       if ((item instanceof Player) || (item instanceof Enemy)) {

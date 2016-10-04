@@ -4,7 +4,7 @@ import java.lang.*;
 
 public class Actor {
 
-  private final int SPACE = 4;
+  private final int SPACE = 8;
 
   private int x;
   private int y;
@@ -55,10 +55,10 @@ public class Actor {
     if (_direction.equals("Up")) {
       int xModulo = this.x % 32;
       int xtrModulo = ((this.x + 18) % 32);
-      int yModulo = (this.y - SPACE) % 32;
+      int yModulo = (this.y - SPACE + 16) % 32;
       xCoordinate = this.x - xModulo;
       xtrCoordinate = this.x + 18 - xtrModulo;
-      yCoordinate = (this.y - SPACE) - yModulo;
+      yCoordinate = (this.y - SPACE + 16) - yModulo;
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
@@ -95,10 +95,10 @@ public class Actor {
       return false;
     }
     if (_direction.equals("Left")) {
-      int yModulo = this.y % 32;
+      int yModulo = (this.y + 16) % 32;
       int ytrModulo = ((this.y + 24) % 32);
       int xModulo = (this.x - SPACE) % 32;
-      yCoordinate = this.y - yModulo;
+      yCoordinate = (this.y + 16) - yModulo;
       ytrCoordinate = this.y + 24 - ytrModulo;
       xCoordinate = (this.x - SPACE) - xModulo;
       for (Actor _actor : _allCollidableActors) {
@@ -116,14 +116,11 @@ public class Actor {
       return false;
     }
     if (_direction.equals("Right")) {
-      int yModulo = this.y % 32;
+      int yModulo = (this.y + 16) % 32;
       int ybrModulo = ((this.y + 24) % 32);
-
       int xModulo = (this.x + SPACE + 18) % 32;
-
-      yCoordinate = this.y - yModulo;
+      yCoordinate = (this.y + 16) - yModulo;
       ybrCoordinate = this.y + 24 - ybrModulo;
-
       xCoordinate = (this.x + SPACE + 18 - xModulo);
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
@@ -140,7 +137,35 @@ public class Actor {
       return false;
     }
     return false;
+  }
 
+  public int checkWarp(ArrayList<Warp> _warps) {
+    int centerX = this.x + 9;
+    int centerY = this.y + 12;
+    int yModulo = centerY % 32;
+    int xModulo = centerX % 32;
+    for (Warp warp : _warps) {
+
+
+
+      if(((centerX - xModulo) == warp.x()) && ((centerY - yModulo) == warp.y())) {
+
+        return warp.getId();
+      }
+    }
+    return -1;
+  }
+
+  public void setNewPosition(){
+    if(this.x < 100){
+      this.x = 1536;
+    } else if(this.x > 1500){
+      this.x = 64;
+    } else if(this.y < 100){
+      this.y = 832;
+    } else if(this.y > 800){
+      this.y = 64;
+    }
   }
 
   public boolean checkEnemy(ArrayList<Enemy> _allCollidableActors){

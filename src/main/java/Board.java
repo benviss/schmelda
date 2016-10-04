@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.*;
+
 
 public class Board extends JPanel {
 
@@ -15,16 +17,19 @@ public class Board extends JPanel {
 
 
   // player starting position
-  private int playerX = 96;
-  private int playerY = 96;
+  private int playerX = 320;
+  private int playerY = 320;
 
   private static int score = 5;
 
   public HUD hud = new HUD();
   public Timer timer = new Timer();
 
+  public Level level = new Level();
+  public ArrayList<String> levelArray = level.returnLevelArray();
+
   private ArrayList areas = new ArrayList();
-  private ArrayList warps = new ArrayList();
+  private ArrayList<Warp> warps = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
 
   private Player chain;
@@ -55,15 +60,20 @@ public class Board extends JPanel {
   }
 
   public final void initWorld() {
+
+
     int x = OFFSET;
     int y = OFFSET;
 
     Wall wall;
     Area a;
+    Tree t;
+
     Warp warp;
     Water w;
     Enemy e;
-
+    Fire f;
+    Path p;
     String currentLevel = Level.getLevel(levelCount);
 
     for (int i = 0; i < currentLevel.length(); i++) {
@@ -87,10 +97,6 @@ public class Board extends JPanel {
         a = new Area(x, y);
         areas.add(a);
         x += SPACE;
-      } else if (item == '?') {
-        warp = new Warp(x, y);
-        warps.add(warp);
-        x += SPACE;
       } else if (item == 'e') {
         e = new Enemy(x, y);
         collidables.add(e);
@@ -98,16 +104,33 @@ public class Board extends JPanel {
         areas.add(a);
         enemies.add(e);
         x += SPACE;
-      } else if (item == '@') {
-        chain = new Player(playerX, playerY);
-        a = new Area(x, y);
-        areas.add(a);
-        x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
+      } else if (item == 'f') {
+        f = new Fire(x, y);
+        p = new Path(x, y);
+        areas.add(p);
+        collidables.add(f);
+        x += SPACE;
+      } else if (item == 't') {
+        t = new Tree(x, y);
+        a = new Area(x, y);
+        areas.add(a);
+        collidables.add(t);
+        x += SPACE;
+      } else if (item == '$') {
+        p = new Path(x, y);
+        areas.add(p);
+        x += SPACE;
+      } else if (item == '1' || item == '2' || item == '3' || item == '4'|| item == '5'|| item == '6'|| item == '7'|| item == '8'|| item == '9') {
+        p = new Path(x, y);
+        areas.add(p);
+        warp = new Warp(x, y, item);
+        warps.add(warp);
+        x += SPACE;
       }
-
     }
+    chain = new Player(playerX, playerY);
     h = y;
 
     if(enemies.size() > 0){
@@ -122,11 +145,13 @@ public class Board extends JPanel {
     g.fillRect(0,0,this.getWidth(), this.getHeight());
 
     ArrayList world = new ArrayList();
-    world.addAll(collidables);
+
     world.addAll(areas);
     world.addAll(warps);
-    world.add(chain);
+    world.addAll(collidables);
     world.addAll(enemies);
+    world.add(chain);
+
 
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
@@ -214,6 +239,15 @@ public class Board extends JPanel {
 
         } else if (key == KeyEvent.VK_R) {
             restartLevel();
+        }
+        if(chain.checkWarp(warps) != -1) {
+          System.out.println("check warp passsed");
+          levelCount = chain.checkWarp(warps);
+          chain.setNewPosition();
+          playerX = chain.x();
+          playerY = chain.y();
+          restartLevel();
+          repaint();
         }
         repaint();
     }

@@ -59,6 +59,7 @@ public class Board extends JPanel {
     Water w;
     Enemy e;
     Fire f;
+    Path p;
     String currentLevel = Level.getLevel(levelCount);
 
     for (int i = 0; i < currentLevel.length(); i++) {
@@ -104,6 +105,11 @@ public class Board extends JPanel {
         a = new Area(x, y);
         areas.add(a);
         collidables.add(f);
+        x += SPACE;
+      }
+      else if (item == '$') {
+        p = new Path(x, y);
+        areas.add(p);
         x += SPACE;
       }
 

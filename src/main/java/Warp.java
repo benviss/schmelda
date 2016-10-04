@@ -10,12 +10,15 @@ public class Warp extends Actor {
     public Warp(int x, int y, char _levelId) {
         super(x, y);
 
-        levelId = Integer.valueOf(_levelId);
-
+        levelId = Character.getNumericValue(_levelId);
         URL loc = this.getClass().getResource("images/chain-down.gif");
         ImageIcon iia = new ImageIcon(loc);
         image = iia.getImage();
         this.setImage(image);
 
+    }
+
+    public int getId() {
+      return levelId;
     }
 }

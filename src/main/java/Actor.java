@@ -138,4 +138,33 @@ public class Actor {
     }
     return false;
   }
+
+  public int checkWarp(ArrayList<Warp> _warps) {
+    int centerX = this.x + 9;
+    int centerY = this.y + 12;
+    int yModulo = centerY % 32;
+    int xModulo = centerX % 32;
+    for (Warp warp : _warps) {
+
+
+
+      if(((centerX - xModulo) == warp.x()) && ((centerY - yModulo) == warp.y())) {
+
+        return warp.getId();
+      }
+    }
+    return -1;
+  }
+
+  public void setNewPosition(){
+    if(this.x < 100){
+      this.x = 1536;
+    } else if(this.x > 1500){
+      this.x = 64;
+    } else if(this.y < 100){
+      this.y = 832;
+    } else if(this.y > 800){
+      this.y = 64;
+    }
+  }
 }

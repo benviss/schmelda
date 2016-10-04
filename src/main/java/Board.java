@@ -25,7 +25,7 @@ public class Board extends JPanel {
   public ArrayList<String> levelArray = level.returnLevelArray();
 
   private ArrayList areas = new ArrayList();
-  private ArrayList warps = new ArrayList();
+  private ArrayList<Warp> warps = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
 
   private Player chain;
@@ -98,11 +98,6 @@ public class Board extends JPanel {
         areas.add(a);
         enemies.add(e);
         x += SPACE;
-      } else if (item == '@') {
-        chain = new Player(playerX, playerY);
-        a = new Area(x, y);
-        areas.add(a);
-        x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
       } else if (item == 'f') {
@@ -121,15 +116,15 @@ public class Board extends JPanel {
         p = new Path(x, y);
         areas.add(p);
         x += SPACE;
-      } else if (item == '1' || item == '2' || item == '3' || item == '4') {
+      } else if (item == '1' || item == '2' || item == '3' || item == '4'|| item == '5'|| item == '6'|| item == '7'|| item == '8'|| item == '9') {
         p = new Path(x, y);
         areas.add(p);
         warp = new Warp(x, y, item);
         warps.add(warp);
         x += SPACE;
       }
-
     }
+    chain = new Player(playerX, playerY);
     h = y;
   }
   public void buildWorld(Graphics g) {
@@ -213,6 +208,15 @@ public class Board extends JPanel {
 
         } else if (key == KeyEvent.VK_R) {
             restartLevel();
+        }
+        if(chain.checkWarp(warps) != -1) {
+          System.out.println("check warp passsed");
+          levelCount = chain.checkWarp(warps);
+          chain.setNewPosition();
+          playerX = chain.x();
+          playerY = chain.y();
+          restartLevel();
+          repaint();
         }
         repaint();
     }

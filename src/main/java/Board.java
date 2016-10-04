@@ -12,8 +12,8 @@ public class Board extends JPanel {
   private final int SPACE = 32;
 
   // player starting position
-  private int playerX = 100;
-  private int playerY = 100;
+  private int playerX = 96;
+  private int playerY = 96;
 
   private static int score = 5;
 
@@ -24,7 +24,7 @@ public class Board extends JPanel {
   private ArrayList collidables = new ArrayList();
 
   private Player chain;
-  private ArrayList enemies = new ArrayList();
+  public ArrayList enemies = new ArrayList();
 
   private int w = 0;
   private int h = 0;
@@ -57,6 +57,7 @@ public class Board extends JPanel {
     Area a;
     Warp warp;
     Water w;
+    Enemy e;
 
     String currentLevel = Level.getLevel(levelCount);
 
@@ -85,6 +86,12 @@ public class Board extends JPanel {
         warp = new Warp(x, y);
         warps.add(warp);
         x += SPACE;
+      } else if (item == 'e') {
+        e = new Enemy(x, y);
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(e);
+        x += SPACE;
       } else if (item == '@') {
         chain = new Player(playerX, playerY);
         a = new Area(x, y);
@@ -99,7 +106,7 @@ public class Board extends JPanel {
   }
   public void buildWorld(Graphics g) {
 
-    g.setColor(new Color(0, 0, 0));
+    g.setColor(new Color(116, 189, 27));
     g.fillRect(0,0,this.getWidth(), this.getHeight());
 
     ArrayList world = new ArrayList();
@@ -117,7 +124,7 @@ public class Board extends JPanel {
       }
 
       if (completed) {
-        g.setColor(new Color(0, 0, 0));
+        g.setColor(new Color(116, 189, 27));
         g.drawString("Completed", 25, 20);
       }
     }
@@ -150,6 +157,7 @@ public class Board extends JPanel {
             if(!chain.checkCollidable(collidables,"Right")) {
             chain.move(chain.getSpace(), 0);
             }
+
         } else if (key == KeyEvent.VK_UP) {
           chain.setMovingUp();
             if(!chain.checkCollidable(collidables,"Up")) {
@@ -189,6 +197,7 @@ public class Board extends JPanel {
   public void restartLevel() {
     areas.clear();
     warps.clear();
+    enemies.clear();
     collidables.clear();
     initWorld();
     if (completed) {

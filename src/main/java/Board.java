@@ -1,15 +1,20 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Timer;
+
+
 import java.util.TimerTask;
 import java.util.regex.*;
 
 
-public class Board extends JPanel {
+public class Board extends JPanel{
 
   // Set size to image size
   private final int OFFSET = 32;
@@ -18,12 +23,13 @@ public class Board extends JPanel {
 
   // player starting position
   private int playerX = 320;
-  private int playerY = 320;
+  private int playerY = 640;
 
   private static int score = 5;
 
   public HUD hud = new HUD();
   public Timer timer = new Timer();
+  public Timer newtimer = new Timer();
 
   public Level level = new Level();
   public ArrayList<String> levelArray = level.returnLevelArray();
@@ -40,11 +46,14 @@ public class Board extends JPanel {
   private int levelCount = 1;
   private boolean completed = false;
   private boolean invincible = false;
+  private final int DELAY = 10;
+
 
   public Board() {
     addKeyListener(new TAdapter());
     setFocusable(true);
     initWorld();
+    startTimer();
   }
 
   public int getBoardWidth() {
@@ -59,9 +68,8 @@ public class Board extends JPanel {
     return score;
   }
 
+
   public final void initWorld() {
-
-
     int x = OFFSET;
     int y = OFFSET;
 
@@ -159,10 +167,12 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
+
     if(enemies.size() > 0){
       enemies.get(0).leftRightMoveRandom(4);
       enemies.get(1).circleMove(30);
     }
+    chain.setArrayList(collidables);
 
   }
   public void buildWorld(Graphics g) {
@@ -177,6 +187,7 @@ public class Board extends JPanel {
     world.addAll(collidables);
     world.addAll(enemies);
     world.add(chain);
+
 
 
     for (int i = 0; i < world.size(); i++) {
@@ -214,54 +225,64 @@ public class Board extends JPanel {
      }
 
     }
+
   }
 
-  class TAdapter extends KeyAdapter {
+  // public void moveTimer(){
+  //   TimerTask timerTask = new TimerTask(){
+  //     @Override
+  //     public void run() {
+  //       chain.move();
+  //       System.out.println("hmm");
+  //       }
+  //     };
+  //
+  //   this.movetimer.schedule(timerTask, 100);
+  // }
+public void startTimer() {
+  TimerTask myTask = new TimerTask() {
+  @Override
+  public void run() {
+    try{
+      chain.move();
+      // throw new ConcurrentModificationException();
+    }
+    catch (Exception e){
+      System.out.println("hmms*$&$&@#&@");
+    }
+    }
+  };
+  timer.schedule(myTask,  10, 10);
 
+}
+
+  class TAdapter extends KeyAdapter {
 
 
     @Override
     public void keyPressed(KeyEvent e) {
 
-
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
           chain.setMovingLeft();
-
-
-            if(!chain.checkCollidable(collidables,"Left")) {
-            chain.move(-chain.getSpace(), 0);
-            }
-
+          chain.setMovement("Left");
+          chain.setDx(-chain.getSpace());
         } else if (key == KeyEvent.VK_RIGHT) {
           chain.setMovingRight();
-            if(!chain.checkCollidable(collidables,"Right")) {
-            chain.move(chain.getSpace(), 0);
-            }
+          chain.setMovement("Right");
+          chain.setDx(chain.getSpace());
+
 
         } else if (key == KeyEvent.VK_UP) {
           chain.setMovingUp();
-            if(!chain.checkCollidable(collidables,"Up")) {
-            chain.move(0,-chain.getSpace());
-            }
+          chain.setMovement("Up");
+          chain.setDy(-chain.getSpace());
+
         } else if (key == KeyEvent.VK_DOWN) {
           chain.setMovingDown();
-            if(!chain.checkCollidable(collidables,"Down")) {
-            chain.move(0,chain.getSpace());
-            }
-            // if (checkWallCollision(chain,
-            //         WARP_COLLISION)) {
-            //     if(levelCount == 4) {
-            //       levelCount = 2;
-            //       playerX = 390;
-            //       playerY = 50;
-            //       restartLevel();
-            //       repaint();
-            //       return;
-            //     }
-            // }
-
+          chain.setMovement("Down");
+          chain.setDy(chain.getSpace());
         } else if (key == KeyEvent.VK_R) {
             restartLevel();
         }
@@ -275,7 +296,28 @@ public class Board extends JPanel {
         }
         repaint();
     }
+    @Override
+    public void keyReleased(KeyEvent e) {
+      int key = e.getKeyCode();
+
+      if (key != KeyEvent.VK_LEFT) {
+        chain.setDx(0);
+      }
+      if (key != KeyEvent.VK_RIGHT) {
+        chain.setDx(0);
+      }
+      if (key != KeyEvent.VK_UP) {
+      chain.setDy(0);
+      }
+      if (key != KeyEvent.VK_DOWN) {
+      chain.setDy(0);
+      }
+    }
 }
+
+
+
+
 
 
   @Override

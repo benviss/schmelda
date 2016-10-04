@@ -14,6 +14,7 @@ public final class Schmelda extends JFrame {
 
         Board board = new Board();
         add(board);
+        
 
         Dimension size = new Dimension(500, 50);
         board.hud.setMaximumSize(size);

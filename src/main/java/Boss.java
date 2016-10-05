@@ -14,6 +14,8 @@ private Image blob;
 public Timer timer;
 public Timer timer2 = new Timer();
 
+public FireBlast blast;
+
 private boolean clock = true;
 
 Random myRandomGenerator = new Random();
@@ -23,10 +25,11 @@ Random myRandomGenerator = new Random();
 
         timer = new Timer();
         this.collidable = true;
-        URL loc = this.getClass().getResource("images/redBlob.gif");
+        URL loc = this.getClass().getResource("images/kingBlob.gif");
         ImageIcon iia = new ImageIcon(loc);
         Image blob = iia.getImage();
         this.setImage(blob);
+        move(-32,-32);
     }
 
     public void move(int x, int y) {
@@ -42,21 +45,13 @@ Random myRandomGenerator = new Random();
         @Override
         public void run() {
           if(clock){
-            URL loc = this.getClass().getResource("images/fireBlast.gif");
-            ImageIcon iia = new ImageIcon(loc);
-            Image fire = iia.getImage();
-            move(-70,0);
-            setImage(fire);
+            blast = new FireBlast(370,670);
             clock = false;
             Board.isFire = true;
             System.out.println("Fire on: " + Board.isFire );
           }
           else{
-            URL loc = this.getClass().getResource("images/redBlob.gif");
-            ImageIcon iia = new ImageIcon(loc);
-            Image blob = iia.getImage();
-            move(70,0);
-            setImage(blob);
+
             clock = true;
             Board.isFire = false;
             System.out.println("Fire off: " + Board.isFire );

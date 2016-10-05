@@ -74,6 +74,45 @@ public class Enemy extends Actor {
         if(inverse){
           move(0,1);
         }
+      };
+
+      this.timer2.schedule(timerTask, 0, 30);
+    }
+  }
+
+    public void circleMoveRandom(int speed){
+      TimerTask timerTask = new TimerTask(){
+        @Override
+        public void run() {
+
+          if(ruld == 0){
+            move(calc,0);
+            stepCounter += calc;
+          }
+          else if(ruld == 1){
+            move(0,-calc);
+            stepCounter += calc;
+          }
+          else if(ruld == 2){
+            move(-calc,0);
+            stepCounter += calc;
+          }
+          else{
+            move(0,calc);
+            stepCounter += calc;
+          }
+
+          if( stepCounter > 100)
+          {
+            ruld += 1;
+
+            if(ruld == 4){
+              ruld = 0;
+            }
+
+            stepCounter = 0;
+            calc = myRandomGenerator.nextInt(speed) + 1;
+
         else {
           move(0,-1);
         }
@@ -87,6 +126,7 @@ public class Enemy extends Actor {
     };
     this.timer.schedule(timerTask, 0, speed);
   }
+}
 
   public void circleMove(int speed){
     TimerTask timerTask = new TimerTask(){

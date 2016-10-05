@@ -106,8 +106,6 @@ public class Actor {
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
-            System.out.println("hit");
-            System.out.println("x cord: "+ xCoordinate + "|| ycord: " + yCoordinate);
             return true;
           }
         }
@@ -166,7 +164,6 @@ public class Actor {
     for (CobbleStone tile : _tiles) {
 
       if(((centerX - xModulo) == tile.x()) && ((centerY - yModulo) == tile.y())) {
-
         return true;
       }
     }
@@ -204,22 +201,26 @@ public class Actor {
     int x = this.x + 12;
     int y = this.y - 20;
 
+
+    for(Actor actor : _allCollidableActors)
+    {
+      if(((Math.abs(actor.x()+16 - x) < 20) && (Math.abs(actor.y()-16 - y) < 20)))
+      {
+
     for(Enemy currentEnemy : _allEnemies){
 
       if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
-          System.out.println("********* enemy id " + currentEnemy.getId()+ "******************");
         }
+
         return true;
       }
         else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 40)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 40))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
-          System.out.println("********* enemy id " + currentEnemy.getId()+ "******************");
           return false;
-        // System.out.println("Player x:" + x);
-        // System.out.println("Enemy: x:" + actor.x());
+
       }
     }
   }

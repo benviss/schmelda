@@ -39,7 +39,7 @@ public class Level {
 
 
 private static String level2 =
-"##################################################\n"
+  "##################################################\n"
 + "##################################################\n"
 + "##################################################\n"
 + "###..............................................#\n"
@@ -323,7 +323,7 @@ private static String level9 =
     levelArray.add(level4);
     levelArray.add(level5);
     levelArray.add(level6);
-    // levelArray.add(level7);
+    levelArray.add(level7);
     levelArray.add(level8);
     // levelArray.add(level9);
   }

@@ -106,8 +106,6 @@ public class Actor {
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
-            System.out.println("hit");
-            System.out.println("x cord: "+ xCoordinate + "|| ycord: " + yCoordinate);
             return true;
           }
         }
@@ -166,7 +164,6 @@ public class Actor {
     for (CobbleStone tile : _tiles) {
 
       if(((centerX - xModulo) == tile.x()) && ((centerY - yModulo) == tile.y())) {
-
         return true;
       }
     }
@@ -208,8 +205,6 @@ public class Actor {
     {
       if(((Math.abs(actor.x()+16 - x) < 20) && (Math.abs(actor.y()-16 - y) < 20)))
       {
-        System.out.println("Player x:" + x);
-        System.out.println("Enemy: x:" + actor.x());
         return true;
       }
     }

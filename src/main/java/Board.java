@@ -36,6 +36,7 @@ public class Board extends JPanel {
   private ArrayList areas = new ArrayList();
   private ArrayList<Warp> warps = new ArrayList<>();
   private ArrayList<CobbleStone> tiles = new ArrayList<>();
+  private ArrayList<CobbleStone> dangerTiles = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
   private ArrayList<Item> items = new ArrayList();
 
@@ -82,11 +83,13 @@ public class Board extends JPanel {
     StatueBottom statueBottom;
     CobbleStone cobbleStone;
     CobbleStone specialTile;
+    CobbleStone dangerTile;
     CastleWall castleWall;
     Pillar pillar;
     Water w;
     StatueTop statueTop;
     Item key;
+    Boss boss;
 
     Enemy e;
     Fire f;
@@ -113,6 +116,13 @@ public class Board extends JPanel {
       } else if (item == '.') {
         a = new Area(x, y);
         areas.add(a);
+        x += SPACE;
+      } else if (item == 'B') {
+        a = new Area(x, y);
+        areas.add(a);
+        boss = new Boss(x, y);
+        boss.fireBlastCounter();
+        collidables.add(boss);
         x += SPACE;
       } else if (item == 'e') {
         e = new Enemy(x, y);
@@ -168,6 +178,10 @@ public class Board extends JPanel {
         areas.add(specialTile);
         tiles.add(specialTile);
         x += SPACE;
+      } else if (item == 'd') {
+        dangerTile = new CobbleStone(x,y);
+        dangerTiles.add(dangerTile);
+        x += SPACE;
       } else if (item == 'I') {
         pillar = new Pillar(x,y);
         collidables.add(pillar);
@@ -181,13 +195,6 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
-
-    // if(enemies.size() > 0){
-    //   enemies.get(0).leftRightMove(20);
-    //   enemies.get(1).upDownMove(20);
-    //   enemies.get(2).leftRightMoveRandom(4);
-    //   enemies.get(3).circleMoveRandom(5);
-    // }
     chain.setArrayList(collidables);
 
   }
@@ -198,6 +205,7 @@ public class Board extends JPanel {
 
     ArrayList world = new ArrayList();
 
+    world.addAll(dangerTiles);
     world.addAll(areas);
     world.addAll(warps);
     world.addAll(collidables);
@@ -362,11 +370,6 @@ public void startTimer() {
       }
     }
 }
-
-
-
-
-
 
   @Override
   public void paint(Graphics g) {

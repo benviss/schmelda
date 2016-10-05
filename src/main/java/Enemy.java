@@ -141,7 +141,6 @@ Random myRandomGenerator = new Random();
           }
         }
       };
-      System.out.println(calc);
       this.timer2.schedule(timerTask, 0, 30);
     }
 

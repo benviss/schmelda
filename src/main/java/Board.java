@@ -306,6 +306,7 @@ public void startTimer() {
   public void run() {
     try{
       chain.move();
+      chain.checkAttack();
       // throw new ConcurrentModificationException();
     }
     catch (Exception e){
@@ -342,6 +343,10 @@ public void startTimer() {
           chain.setMovingDown();
           chain.setMovement("Down");
           chain.setDy(chain.getSpace());
+        } else if (key == KeyEvent.VK_SPACE) {
+          chain.setAttackingImg();
+          chain.attacking();
+          System.out.println("SWORD ATTACK GO!");
         } else if (key == KeyEvent.VK_R) {
             restartLevel();
         }
@@ -386,6 +391,9 @@ public void startTimer() {
       }
       if (key == KeyEvent.VK_DOWN) {
       chain.setDy(0);
+      }
+      if (key == KeyEvent.VK_SPACE) {
+        chain.setMovingDown();
       }
     }
 }

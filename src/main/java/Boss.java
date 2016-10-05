@@ -13,11 +13,9 @@ private Image fire;
 private Image blob;
 public Timer timer;
 public Timer timer2 = new Timer();
-private int stepCounter;
-private boolean inverse = false;
-private int ruld = 0;
-private int calc = 3;
+
 private boolean clock = true;
+
 Random myRandomGenerator = new Random();
 
     public Boss(int x, int y) {
@@ -63,6 +61,7 @@ Random myRandomGenerator = new Random();
 
       };
       this.timer.schedule(timerTask, 3000, 3000);
+
     }
 
 }

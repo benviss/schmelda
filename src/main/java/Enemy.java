@@ -23,11 +23,24 @@ Random myRandomGenerator = new Random();
         timer = new Timer();
 
         this.collidable = true;
-        URL loc = this.getClass().getResource("images/redBlob.gif");
+        URL loc = this.getClass().getResource("images/blueBlob.gif");
         ImageIcon iia = new ImageIcon(loc);
         Image image = iia.getImage();
         this.setImage(image);
     }
+
+    public Enemy(int x, int y, boolean isHard) {
+        super(x, y);
+
+        timer = new Timer();
+
+        this.collidable = true;
+        URL loc = this.getClass().getResource("images/camoBlob.gif");
+        ImageIcon iia = new ImageIcon(loc);
+        Image image = iia.getImage();
+        this.setImage(image);
+    }
+
 
     public void move(int x, int y) {
         int nx = this.x() + x;
@@ -137,10 +150,11 @@ Random myRandomGenerator = new Random();
           {
             stepCounter = 0;
             inverse = !inverse;
-            calc = myRandomGenerator.nextInt(max) + 2;
+            calc = myRandomGenerator.nextInt(max) + 1;
           }
         }
       };
+
       this.timer2.schedule(timerTask, 0, 30);
     }
 
@@ -175,12 +189,12 @@ Random myRandomGenerator = new Random();
             }
 
             stepCounter = 0;
-            calc = myRandomGenerator.nextInt(speed) + 2;
+            calc = myRandomGenerator.nextInt(speed) + 1;
           }
 
         }
       };
-      this.timer.schedule(timerTask, 0, 30);
+      this.timer.schedule(timerTask, 0, 50);
     }
 
 }

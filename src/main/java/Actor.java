@@ -42,6 +42,7 @@ public class Actor {
   }
 
   public boolean checkCollidable(ArrayList<Actor> _allCollidableActors, String _direction) {
+    System.out.println(_allCollidableActors.size() + "collidables");
     int xCoordinate = 0;
     int xtlCoordinate = 0;
     int xtrCoordinate = 0;
@@ -101,9 +102,12 @@ public class Actor {
       yCoordinate = (this.y + 16) - yModulo;
       ytrCoordinate = this.y + 24 - ytrModulo;
       xCoordinate = (this.x - SPACE) - xModulo;
+
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
+            System.out.println("hit");
+            System.out.println("x cord: "+ xCoordinate + "|| ycord: " + yCoordinate);
             return true;
           }
         }

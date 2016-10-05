@@ -48,6 +48,8 @@ Random myRandomGenerator = new Random();
             move(-70,0);
             setImage(fire);
             clock = false;
+            Board.isFire = true;
+            System.out.println("Fire on: " + Board.isFire );
           }
           else{
             URL loc = this.getClass().getResource("images/redBlob.gif");
@@ -56,11 +58,18 @@ Random myRandomGenerator = new Random();
             move(70,0);
             setImage(blob);
             clock = true;
+            Board.isFire = false;
+            System.out.println("Fire off: " + Board.isFire );
+            if(Board.levelCount != 1)
+            {
+              timer.cancel();
+              System.out.println("Timer cancelled");
+            }
           }
         }
 
       };
-      this.timer.schedule(timerTask, 3000, 3000);
+        this.timer.schedule(timerTask, 3000, 3000);
 
     }
 

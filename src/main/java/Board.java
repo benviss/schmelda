@@ -46,11 +46,12 @@ public class Board extends JPanel {
 
   private int w = 0;
   private int h = 0;
-  private int levelCount = 1;
+  public static int levelCount = 1;
   private boolean completed = false;
   private boolean invincible = false;
   private final int DELAY = 10;
 
+  public static boolean isFire = false;
 
   public Board() {
     addKeyListener(new TAdapter());
@@ -350,6 +351,29 @@ public class Board extends JPanel {
         invincible = true;
         // }
       }
+
+      if(chain.checkTile(dangerTiles, chain)){
+
+        if(!invincible && isFire){
+
+          if(hud.heartLabelTwo.isVisible() == false) {
+            hud.heartLabelTwo.setVisible(true);
+            hud.heartLabelThree.setVisible(true);
+            levelCount = 1;
+            chain.setNewPosition();
+            playerX = 1000;
+            playerY = 200;
+            restartLevel();
+            repaint();
+          } else if(hud.heartLabelThree.isVisible() == false) {
+            hud.heartLabelTwo.setVisible(false);
+          } else {
+            hud.heartLabelThree.setVisible(false);
+          }
+          InvincibleTimer();
+          invincible = true;
+        }
+      }
     }
   }
 
@@ -470,7 +494,6 @@ public class Board extends JPanel {
   public void restartLevel() {
     areas.clear();
     warps.clear();
-    enemies.clear();
     enemies.clear();
     collidables.clear();
     items.clear();

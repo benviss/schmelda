@@ -220,4 +220,18 @@ public class Actor {
 
     return false;
   }
+
+  public boolean checkTile(ArrayList<CobbleStone> _allTiles, Player chain){
+    int x = this.x + 12;
+    int y = this.y - 20;
+
+    for(CobbleStone currentTile : _allTiles){
+
+      if(((Math.abs(currentTile.x()+16 - x) < 20) && (Math.abs(currentTile.y()-16 - y) < 20))){
+        return true;
+    }
+  }
+
+    return false;
+  }
 }

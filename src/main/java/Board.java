@@ -40,7 +40,9 @@ public class Board extends JPanel {
   private ArrayList<Item> items = new ArrayList();
 
   private Player chain;
+  public ArrayList<Enemy> totalEnemies = new ArrayList<Enemy>();
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  public ArrayList<Enemy> hardEnemies = new ArrayList<Enemy>();
 
   private int w = 0;
   private int h = 0;
@@ -89,6 +91,7 @@ public class Board extends JPanel {
     Item key;
 
     Enemy e;
+    Enemy hard;
     Fire f;
     Path p;
     String currentLevel = Level.getLevel(levelCount);
@@ -121,11 +124,20 @@ public class Board extends JPanel {
         areas.add(a);
         enemies.add(e);
         x += SPACE;
+      } else if (item == 'E') {
+        hard = new Enemy(x, y,true);
+        a = new Area(x, y);
+        areas.add(a);
+        hardEnemies.add(hard);
+        x += SPACE;
       } else if (item == 'k') {
         a = new Area(x, y);
         areas.add(a);
-        key = new Item(x, y);
-        items.add(key);
+        if(!hud.keyIcon.isVisible())
+        {
+          key = new Item(x, y);
+          items.add(key);
+        }
         x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
@@ -181,14 +193,40 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
+    totalEnemies.addAll(enemies);
+    totalEnemies.addAll(hardEnemies);
 
-    // if(enemies.size() > 0){
-    //   enemies.get(0).leftRightMove(20);
-    //   enemies.get(1).upDownMove(20);
-    //   enemies.get(2).leftRightMoveRandom(4);
-    //   enemies.get(3).circleMoveRandom(5);
-    // }
     chain.setArrayList(collidables);
+
+    for(int i = 0; i < enemies.size(); i++){
+      if(i == 0){
+        enemies.get(i).leftRightMove(40);
+      }
+      else if(i == 1){
+        enemies.get(i).upDownMove(40);
+      }
+      else if(i == 2){
+        enemies.get(i).leftRightMoveRandom(2);
+      }
+      else if(i == 3){
+        enemies.get(i).circleMoveRandom(2);
+      }
+    }
+
+    for(int i = 0; i < hardEnemies.size(); i++){
+      if(i == 0){
+        hardEnemies.get(i).leftRightMove(10);
+      }
+      else if(i == 1){
+        hardEnemies.get(i).upDownMove(10);
+      }
+      else if(i == 2){
+        hardEnemies.get(i).leftRightMoveRandom(5);
+      }
+      else if(i == 3){
+        hardEnemies.get(i).circleMoveRandom(5);
+      }
+    }
 
   }
   public void buildWorld(Graphics g) {
@@ -202,6 +240,7 @@ public class Board extends JPanel {
     world.addAll(warps);
     world.addAll(collidables);
     world.addAll(enemies);
+    world.addAll(hardEnemies);
     world.addAll(items);
     world.add(chain);
 
@@ -218,7 +257,7 @@ public class Board extends JPanel {
         g.drawString("Completed", 25, 20);
       }
 
-      if(chain.checkEnemy(enemies)){
+      if(chain.checkEnemy(totalEnemies)){
 
           if(!invincible){
 
@@ -240,8 +279,6 @@ public class Board extends JPanel {
             else
               hud.heartLabelThree.setVisible(false);
 
-            System.out.println("**Timer Starts**");
-            System.out.println("**Take Damage**");
             InvincibleTimer();
           }
 
@@ -297,8 +334,6 @@ public void startTimer() {
           chain.setMovingRight();
           chain.setMovement("Right");
           chain.setDx(chain.getSpace());
-
-
         } else if (key == KeyEvent.VK_UP) {
           chain.setMovingUp();
           chain.setMovement("Up");
@@ -363,11 +398,6 @@ public void startTimer() {
     }
 }
 
-
-
-
-
-
   @Override
   public void paint(Graphics g) {
     super.paint(g);
@@ -378,7 +408,10 @@ public void startTimer() {
     areas.clear();
     warps.clear();
     enemies.clear();
+    hardEnemies.clear();
+    totalEnemies.clear();
     collidables.clear();
+    items.clear();
     initWorld();
     if (completed) {
         completed = false;

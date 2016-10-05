@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.net.URL;
 import javax.swing.*;
@@ -7,17 +6,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
-public class Enemy extends Actor {
+public class Boss extends Actor {
 
 public Timer timer;
-public Timer timer2 = new Timer();
+public Timer bossTimer = new Timer();
 private int stepCounter;
 private boolean inverse = false;
 private int ruld = 0;
 private int calc = 3;
 Random myRandomGenerator = new Random();
 
-    public Enemy(int x, int y) {
+    public Boss(int x, int y) {
         super(x, y);
 
         timer = new Timer();
@@ -28,19 +27,6 @@ Random myRandomGenerator = new Random();
         Image image = iia.getImage();
         this.setImage(image);
     }
-
-    public Enemy(int x, int y, boolean isHard) {
-        super(x, y);
-
-        timer = new Timer();
-
-        this.collidable = true;
-        URL loc = this.getClass().getResource("images/camoBlob.gif");
-        ImageIcon iia = new ImageIcon(loc);
-        Image image = iia.getImage();
-        this.setImage(image);
-    }
-
 
     public void move(int x, int y) {
         int nx = this.x() + x;
@@ -155,10 +141,45 @@ Random myRandomGenerator = new Random();
         }
       };
       System.out.println(calc);
-      this.timer2.schedule(timerTask, 0, 50);
+      this.timer.schedule(timerTask, 0, 50);
     }
 
     public void circleMoveRandom(int speed){
+      TimerTask timerTask = new TimerTask(){
+        @Override
+        public void run() {
+
+          if(ruld == 0){
+            upDownMove(10);
+          }
+          else if(ruld == 1){
+            move(0,-calc);
+            stepCounter += calc;
+          }
+          else if(ruld == 2){
+            move(-calc,0);
+            stepCounter += calc;
+          }
+          else{
+            move(0,calc);
+            stepCounter += calc;
+          }
+
+          if( stepCounter > 100)
+          {
+            ruld += 1;
+            if(ruld == 4){
+              ruld = 0;
+            }
+            stepCounter = 0;
+            calc = myRandomGenerator.nextInt(speed) + 1;
+          }
+        }
+      };
+      this.timer.schedule(timerTask, 0, 50);
+    }
+
+    public void bossMovement(){
       TimerTask timerTask = new TimerTask(){
         @Override
         public void run() {
@@ -180,21 +201,9 @@ Random myRandomGenerator = new Random();
             stepCounter += calc;
           }
 
-          if( stepCounter > 100)
-          {
-            ruld += 1;
-
-            if(ruld == 4){
-              ruld = 0;
-            }
-
-            stepCounter = 0;
-            calc = myRandomGenerator.nextInt(speed) + 1;
-          }
-
         }
       };
-      this.timer.schedule(timerTask, 0, 50);
+      this.bossTimer.schedule(timerTask, 0, 1000);
     }
 
 }

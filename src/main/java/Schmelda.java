@@ -13,10 +13,11 @@ public final class Schmelda extends JFrame {
       MasterBoard pane = new MasterBoard();
 
         Board board = new Board();
+        board.hud.setBorder(BorderFactory.createLineBorder(Color.white));
         add(board);
-        
 
-        Dimension size = new Dimension(500, 50);
+
+        Dimension size = new Dimension(2000, 50);
         board.hud.setMaximumSize(size);
         board.hud.setPreferredSize(size);
         board.hud.setMinimumSize(size);

@@ -119,7 +119,7 @@ public class Board extends JPanel {
       } else if (item == 'e') {
         enemyCounter = enemies.size();
         e = new Enemy(x, y, 1, enemyCounter);
-        collidables.add(e);
+        // collidables.add(e);
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
@@ -194,8 +194,7 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
-    enemies.addAll(enemies);
-    // enemies.addAll(hardEnemies);
+
 
     chain.setArrayList(collidables);
 
@@ -247,6 +246,8 @@ public class Board extends JPanel {
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
       if ((item instanceof Player) || (item instanceof Enemy)) {
+        if(item instanceof Enemy) {
+        }
         g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
       } else {
         g.drawImage(item.getImage(), item.x(), item.y(), this);
@@ -258,9 +259,6 @@ public class Board extends JPanel {
       }
 
       if(chain.checkEnemy(enemies, chain)){
-        // if (chain.checkAttacking()) {
-        //
-        // } else {
         if(!invincible){
 
           if(hud.heartLabelTwo.isVisible() == false) {
@@ -280,7 +278,6 @@ public class Board extends JPanel {
           InvincibleTimer();
         }
         invincible = true;
-        // }
       }
     }
   }
@@ -306,7 +303,6 @@ public class Board extends JPanel {
           // throw new ConcurrentModificationException();
         }
         catch (Exception e){
-          System.out.println("hmms*$&$&@#&@");
         }
       }
     };
@@ -404,7 +400,6 @@ public class Board extends JPanel {
     areas.clear();
     warps.clear();
     enemies.clear();
-    enemies.clear();
     collidables.clear();
     items.clear();
     initWorld();
@@ -417,7 +412,6 @@ public class Board extends JPanel {
     TimerTask timerTask = new TimerTask(){
       @Override
       public void run() {
-        System.out.println("**Timer Ends**");
         invincible = false;
       }
     };

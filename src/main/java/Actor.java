@@ -42,7 +42,6 @@ public class Actor {
   }
 
   public boolean checkCollidable(ArrayList<Actor> _allCollidableActors, String _direction) {
-    System.out.println(_allCollidableActors.size() + "collidables");
     int xCoordinate = 0;
     int xtlCoordinate = 0;
     int xtrCoordinate = 0;
@@ -106,8 +105,6 @@ public class Actor {
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
-            System.out.println("hit");
-            System.out.println("x cord: "+ xCoordinate + "|| ycord: " + yCoordinate);
             return true;
           }
         }
@@ -209,17 +206,13 @@ public class Actor {
       if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
-          System.out.println("********* enemy id " + currentEnemy.getId()+ "******************");
         }
         return true;
       }
         else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 40)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 40))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
-          System.out.println("********* enemy id " + currentEnemy.getId()+ "******************");
           return false;
-        // System.out.println("Player x:" + x);
-        // System.out.println("Enemy: x:" + actor.x());
       }
     }
   }

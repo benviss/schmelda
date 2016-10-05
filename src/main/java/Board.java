@@ -36,6 +36,7 @@ public class Board extends JPanel{
 
   private ArrayList areas = new ArrayList();
   private ArrayList<Warp> warps = new ArrayList<>();
+  private ArrayList<CobbleStone> tiles = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
 
   private Player chain;
@@ -80,10 +81,12 @@ public class Board extends JPanel{
     Warp warp;
     StatueBottom statueBottom;
     CobbleStone cobbleStone;
+    CobbleStone specialTile;
     CastleWall castleWall;
     Pillar pillar;
     Water w;
     StatueTop statueTop;
+    Key key;
 
     Enemy e;
     Fire f;
@@ -117,6 +120,12 @@ public class Board extends JPanel{
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
+        x += SPACE;
+      } else if (item == 'k') {
+        a = new Area(x, y);
+        areas.add(a);
+        key = new Key(x, y);
+        areas.add(key);
         x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
@@ -154,6 +163,11 @@ public class Board extends JPanel{
         cobbleStone = new CobbleStone(x,y);
         areas.add(cobbleStone);
         x += SPACE;
+      } else if (item == 'z') {
+        specialTile = new CobbleStone(x,y);
+        areas.add(specialTile);
+        tiles.add(specialTile);
+        x += SPACE;
       } else if (item == 'I') {
         pillar = new Pillar(x,y);
         collidables.add(pillar);
@@ -169,8 +183,10 @@ public class Board extends JPanel{
 
 
     if(enemies.size() > 0){
-      enemies.get(0).leftRightMoveRandom(4);
-      enemies.get(1).circleMove(30);
+      enemies.get(0).leftRightMove(20);
+      enemies.get(1).upDownMove(20);
+      enemies.get(2).leftRightMoveRandom(4);
+      enemies.get(3).circleMoveRandom(5);
     }
     chain.setArrayList(collidables);
 
@@ -208,7 +224,16 @@ public class Board extends JPanel{
           if(!invincible){
 
             if(hud.heartLabelTwo.isVisible() == false)
-              hud.heartLabelOne.setVisible(false);
+            {
+              hud.heartLabelTwo.setVisible(true);
+              hud.heartLabelThree.setVisible(true);
+              levelCount = 1;
+              chain.setNewPosition();
+              playerX = 1000;
+              playerY = 200;
+              restartLevel();
+              repaint();
+            }
 
             else if(hud.heartLabelThree.isVisible() == false)
               hud.heartLabelTwo.setVisible(false);
@@ -292,8 +317,18 @@ public void startTimer() {
           playerX = chain.x();
           playerY = chain.y();
           restartLevel();
+          hud.needKey.setVisible(false);
           repaint();
         }
+
+        if(chain.checkTile(tiles)) {
+          if(levelCount == 8)
+          {
+            hud.needKey.setVisible(true);
+            repaint();
+          }
+        }
+
         repaint();
     }
     @Override
@@ -346,7 +381,7 @@ public void startTimer() {
         }
       };
 
-    this.timer.schedule(timerTask, 3000);
+    this.timer.schedule(timerTask, 1000);
   }
 
 }

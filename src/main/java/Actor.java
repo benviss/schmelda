@@ -146,14 +146,28 @@ public class Actor {
     int xModulo = centerX % 32;
     for (Warp warp : _warps) {
 
-
-
       if(((centerX - xModulo) == warp.x()) && ((centerY - yModulo) == warp.y())) {
 
         return warp.getId();
       }
     }
     return -1;
+  }
+
+
+  public boolean checkTile(ArrayList<CobbleStone> _tiles) {
+    int centerX = this.x + 9;
+    int centerY = this.y + 12;
+    int yModulo = centerY % 32;
+    int xModulo = centerX % 32;
+    for (CobbleStone tile : _tiles) {
+
+      if(((centerX - xModulo) == tile.x()) && ((centerY - yModulo) == tile.y())) {
+
+        return true;
+      }
+    }
+    return false;
   }
 
   public void setNewPosition(){

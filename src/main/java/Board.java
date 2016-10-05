@@ -41,9 +41,8 @@ public class Board extends JPanel {
   private ArrayList<Item> items = new ArrayList();
 
   private Player chain;
-  public ArrayList<Enemy> totalEnemies = new ArrayList<Enemy>();
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-  public ArrayList<Enemy> hardEnemies = new ArrayList<Enemy>();
+  public int enemyCounter;
 
   private int w = 0;
   private int h = 0;
@@ -128,17 +127,19 @@ public class Board extends JPanel {
         collidables.add(boss);
         x += SPACE;
       } else if (item == 'e') {
-        e = new Enemy(x, y);
+        enemyCounter = enemies.size();
+        e = new Enemy(x, y, 1, enemyCounter);
         collidables.add(e);
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
         x += SPACE;
       } else if (item == 'E') {
-        hard = new Enemy(x, y,true);
+        enemyCounter = enemies.size();
+        hard = new Enemy(x, y, 2, enemyCounter);
         a = new Area(x, y);
         areas.add(a);
-        hardEnemies.add(hard);
+        enemies.add(hard);
         x += SPACE;
       } else if (item == 'k') {
         a = new Area(x, y);
@@ -207,6 +208,10 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
+    enemies.addAll(enemies);
+    // enemies.addAll(hardEnemies);
+
+
     chain.setArrayList(collidables);
 
     for(int i = 0; i < enemies.size(); i++){
@@ -224,20 +229,20 @@ public class Board extends JPanel {
       }
     }
 
-    for(int i = 0; i < hardEnemies.size(); i++){
-      if(i == 0){
-        hardEnemies.get(i).leftRightMove(10);
-      }
-      else if(i == 1){
-        hardEnemies.get(i).upDownMove(10);
-      }
-      else if(i == 2){
-        hardEnemies.get(i).leftRightMoveRandom(5);
-      }
-      else if(i == 3){
-        hardEnemies.get(i).circleMoveRandom(5);
-      }
-    }
+    // for(int i = 0; i < hardEnemies.size(); i++){
+    //   if(i == 0){
+    //     hardEnemies.get(i).leftRightMove(10);
+    //   }
+    //   else if(i == 1){
+    //     hardEnemies.get(i).upDownMove(10);
+    //   }
+    //   else if(i == 2){
+    //     hardEnemies.get(i).leftRightMoveRandom(5);
+    //   }
+    //   else if(i == 3){
+    //     hardEnemies.get(i).circleMoveRandom(5);
+    //   }
+    // }
 
   }
   public void buildWorld(Graphics g) {
@@ -252,7 +257,6 @@ public class Board extends JPanel {
     world.addAll(warps);
     world.addAll(collidables);
     world.addAll(enemies);
-    world.addAll(hardEnemies);
     world.addAll(items);
     world.add(chain);
 
@@ -269,36 +273,32 @@ public class Board extends JPanel {
         g.drawString("Completed", 25, 20);
       }
 
-      if(chain.checkEnemy(totalEnemies)){
+      if(chain.checkEnemy(enemies, chain)){
+        // if (chain.checkAttacking()) {
+        //
+        // } else {
+        if(!invincible){
 
-          if(!invincible){
-
-            if(hud.heartLabelTwo.isVisible() == false)
-            {
-              hud.heartLabelTwo.setVisible(true);
-              hud.heartLabelThree.setVisible(true);
-              levelCount = 1;
-              chain.setNewPosition();
-              playerX = 1000;
-              playerY = 200;
-              restartLevel();
-              repaint();
-            }
-
-            else if(hud.heartLabelThree.isVisible() == false)
-              hud.heartLabelTwo.setVisible(false);
-
-            else
-              hud.heartLabelThree.setVisible(false);
-
-            InvincibleTimer();
+          if(hud.heartLabelTwo.isVisible() == false) {
+            hud.heartLabelTwo.setVisible(true);
+            hud.heartLabelThree.setVisible(true);
+            levelCount = 1;
+            chain.setNewPosition();
+            playerX = 1000;
+            playerY = 200;
+            restartLevel();
+            repaint();
+          } else if(hud.heartLabelThree.isVisible() == false) {
+            hud.heartLabelTwo.setVisible(false);
+          } else {
+            hud.heartLabelThree.setVisible(false);
           }
-
-          invincible = true;
-     }
-
+          InvincibleTimer();
+        }
+        invincible = true;
+        // }
+      }
     }
-
   }
 
   // public void moveTimer(){
@@ -312,23 +312,23 @@ public class Board extends JPanel {
   //
   //   this.movetimer.schedule(timerTask, 100);
   // }
-public void startTimer() {
-  TimerTask myTask = new TimerTask() {
-  @Override
-  public void run() {
-    try{
-      chain.move();
-      chain.checkAttack();
-      // throw new ConcurrentModificationException();
-    }
-    catch (Exception e){
-      System.out.println("hmms*$&$&@#&@");
-    }
-    }
-  };
-  timer.schedule(myTask,  10, 10);
+  public void startTimer() {
+    TimerTask myTask = new TimerTask() {
+      @Override
+      public void run() {
+        try{
+          chain.move();
+          chain.checkAttack();
+          // throw new ConcurrentModificationException();
+        }
+        catch (Exception e){
+          System.out.println("hmms*$&$&@#&@");
+        }
+      }
+    };
+    timer.schedule(myTask,  10, 10);
 
-}
+  }
 
   class TAdapter extends KeyAdapter {
 
@@ -336,57 +336,57 @@ public void startTimer() {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        int key = e.getKeyCode();
+      int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
-          chain.setMovingLeft();
-          chain.setMovement("Left");
-          chain.setDx(-chain.getSpace());
-        } else if (key == KeyEvent.VK_RIGHT) {
-          chain.setMovingRight();
-          chain.setMovement("Right");
-          chain.setDx(chain.getSpace());
-        } else if (key == KeyEvent.VK_UP) {
-          chain.setMovingUp();
-          chain.setMovement("Up");
-          chain.setDy(-chain.getSpace());
+      if (key == KeyEvent.VK_LEFT) {
+        chain.setMovingLeft();
+        chain.setMovement("Left");
+        chain.setDx(-chain.getSpace());
+      } else if (key == KeyEvent.VK_RIGHT) {
+        chain.setMovingRight();
+        chain.setMovement("Right");
+        chain.setDx(chain.getSpace());
+      } else if (key == KeyEvent.VK_UP) {
+        chain.setMovingUp();
+        chain.setMovement("Up");
+        chain.setDy(-chain.getSpace());
 
-        } else if (key == KeyEvent.VK_DOWN) {
-          chain.setMovingDown();
-          chain.setMovement("Down");
-          chain.setDy(chain.getSpace());
-        } else if (key == KeyEvent.VK_SPACE) {
-          chain.setAttackingImg();
-          chain.attacking();
-          System.out.println("SWORD ATTACK GO!");
-        } else if (key == KeyEvent.VK_R) {
-            restartLevel();
-        }
-        if(chain.checkWarp(warps) != -1) {
-          levelCount = chain.checkWarp(warps);
-          chain.setNewPosition();
-          playerX = chain.x();
-          playerY = chain.y();
-          restartLevel();
-          hud.needKey.setVisible(false);
+      } else if (key == KeyEvent.VK_DOWN) {
+        chain.setMovingDown();
+        chain.setMovement("Down");
+        chain.setDy(chain.getSpace());
+      } else if (key == KeyEvent.VK_SPACE) {
+        chain.setAttackingImg();
+        chain.attacking();
+        System.out.println("SWORD ATTACK GO!");
+      } else if (key == KeyEvent.VK_R) {
+        restartLevel();
+      }
+      if(chain.checkWarp(warps) != -1) {
+        levelCount = chain.checkWarp(warps);
+        chain.setNewPosition();
+        playerX = chain.x();
+        playerY = chain.y();
+        restartLevel();
+        hud.needKey.setVisible(false);
+        repaint();
+      }
+
+      if(chain.checkTile(tiles)) {
+        if(levelCount == 8)
+        {
+          hud.needKey.setVisible(true);
           repaint();
         }
+      }
 
-        if(chain.checkTile(tiles)) {
-          if(levelCount == 8)
-          {
-            hud.needKey.setVisible(true);
-            repaint();
-          }
-        }
-
-        if(chain.checkItem(items)) {
-            hud.keyIcon.setVisible(true);
-            items.clear();
-            repaint();
-          }
-
+      if(chain.checkItem(items)) {
+        hud.keyIcon.setVisible(true);
+        items.clear();
         repaint();
+      }
+
+      repaint();
     }
     @Override
     public void keyReleased(KeyEvent e) {
@@ -399,16 +399,16 @@ public void startTimer() {
         chain.setDx(0);
       }
       if (key == KeyEvent.VK_UP) {
-      chain.setDy(0);
+        chain.setDy(0);
       }
       if (key == KeyEvent.VK_DOWN) {
-      chain.setDy(0);
+        chain.setDy(0);
       }
       if (key == KeyEvent.VK_SPACE) {
         chain.setMovingDown();
       }
     }
-}
+  }
 
   @Override
   public void paint(Graphics g) {
@@ -420,13 +420,12 @@ public void startTimer() {
     areas.clear();
     warps.clear();
     enemies.clear();
-    hardEnemies.clear();
-    totalEnemies.clear();
+    enemies.clear();
     collidables.clear();
     items.clear();
     initWorld();
     if (completed) {
-        completed = false;
+      completed = false;
     }
   }
 
@@ -434,10 +433,10 @@ public void startTimer() {
     TimerTask timerTask = new TimerTask(){
       @Override
       public void run() {
-         System.out.println("**Timer Ends**");
-         invincible = false;
-        }
-      };
+        System.out.println("**Timer Ends**");
+        invincible = false;
+      }
+    };
 
     this.timer.schedule(timerTask, 1000);
   }

@@ -32,13 +32,13 @@ public class Actor {
     return collidable;
   }
   public int y() {
-      return this.y;
+    return this.y;
   }
   public void setX(int x) {
-      this.x = x;
+    this.x = x;
   }
   public void setY(int y) {
-      this.y = y;
+    this.y = y;
   }
 
   public boolean checkCollidable(ArrayList<Actor> _allCollidableActors, String _direction) {
@@ -170,7 +170,7 @@ public class Actor {
     return false;
   }
 
- public boolean checkItem(ArrayList<Item> _items) {
+  public boolean checkItem(ArrayList<Item> _items) {
     int centerX = this.x + 9;
     int centerY = this.y + 12;
     int yModulo = centerY % 32;
@@ -197,17 +197,34 @@ public class Actor {
     }
   }
 
-  public boolean checkEnemy(ArrayList<Enemy> _allCollidableActors){
+  public boolean checkEnemy(ArrayList<Enemy> _allEnemies, Player chain){
     int x = this.x + 12;
     int y = this.y - 20;
+
 
     for(Actor actor : _allCollidableActors)
     {
       if(((Math.abs(actor.x()+16 - x) < 20) && (Math.abs(actor.y()-16 - y) < 20)))
       {
+
+    for(Enemy currentEnemy : _allEnemies){
+
+      if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){
+        if (chain.getAttacking() == true){
+          _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
+        }
+
         return true;
       }
+        else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 40)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 40))){
+        if (chain.getAttacking() == true){
+          _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
+          return false;
+
+      }
     }
+  }
+
     return false;
   }
 }

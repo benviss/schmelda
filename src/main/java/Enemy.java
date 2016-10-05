@@ -5,6 +5,8 @@ import java.io.BufferedInputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 public class Enemy extends Actor {
   Random myRandomGenerator = new Random();
@@ -15,12 +17,14 @@ public class Enemy extends Actor {
   private int mId;
   private int ruld = 0;
   private int calc = 3;
+  private char movePattern;
   // private int speed;
 
-  public Enemy(int x, int y, int type, int _id) {
+  public Enemy(int x, int y, int type, int _id, char _move) {
     super(x, y);
     mId = _id;
     timer = new Timer();
+    this.movePattern = _move;
     if (type == 1) {
       this.collidable = true;
       URL loc = this.getClass().getResource("images/blueBlob.gif");
@@ -37,6 +41,9 @@ public class Enemy extends Actor {
   }
   public int getId(){
     return mId;
+  }
+  public char getMovePattern() {
+    return movePattern;
   }
 
   public void move(int x, int y) {
@@ -171,5 +178,36 @@ public class Enemy extends Actor {
       }
     };
     this.timer.schedule(timerTask, 0, 50);
+  }
+
+  public static void movePatterns(ArrayList<Enemy> _enemies) {
+    for (Enemy currentEnemy : _enemies) {
+      switch (currentEnemy.getMovePattern()) {
+        case 'm':
+          currentEnemy.leftRightMove(40);
+          break;
+        case 'M':
+          currentEnemy.leftRightMove(10);
+          break;
+        case 'n':
+          currentEnemy.upDownMove(40);
+          break;
+        case 'N':
+          currentEnemy.upDownMove(10);
+          break;
+        case 'o':
+          currentEnemy.circleMoveRandom(2);
+          break;
+        case 'O':
+          currentEnemy.circleMoveRandom(5);
+          break;
+        case 'q':
+          currentEnemy.leftRightMoveRandom(2);
+          break;
+        case 'Q':
+          currentEnemy.leftRightMoveRandom(5);
+          break;
+      }
+    }
   }
 }

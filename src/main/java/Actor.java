@@ -42,7 +42,6 @@ public class Actor {
   }
 
   public boolean checkCollidable(ArrayList<Actor> _allCollidableActors, String _direction) {
-    System.out.println(_allCollidableActors.size() + "collidables");
     int xCoordinate = 0;
     int xtlCoordinate = 0;
     int xtrCoordinate = 0;

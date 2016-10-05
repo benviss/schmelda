@@ -128,20 +128,75 @@ public class Board extends JPanel {
         x += SPACE;
       } else if (item == 'e') {
         enemyCounter = enemies.size();
-        e = new Enemy(x, y, 1, enemyCounter);
-        collidables.add(e);
+        e = new Enemy(x, y, 1, enemyCounter, 'e');
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
         x += SPACE;
       } else if (item == 'E') {
         enemyCounter = enemies.size();
-        hard = new Enemy(x, y, 2, enemyCounter);
+        hard = new Enemy(x, y, 2, enemyCounter, 'E');
         a = new Area(x, y);
         areas.add(a);
         enemies.add(hard);
         x += SPACE;
-      } else if (item == 'k') {
+      } else if (item == 'q') {
+        enemyCounter = enemies.size();
+        e = new Enemy(x, y, 1, enemyCounter, 'q');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(e);
+        x += SPACE;
+      }else if (item == 'Q') {
+        enemyCounter = enemies.size();
+        hard = new Enemy(x, y, 2, enemyCounter, 'Q');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(hard);
+        x += SPACE;
+      }else if (item == 'o') {
+        enemyCounter = enemies.size();
+        e = new Enemy(x, y, 1, enemyCounter, 'o');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(e);
+        x += SPACE;
+      }else if (item == 'O') {
+        enemyCounter = enemies.size();
+        hard = new Enemy(x, y, 2, enemyCounter, 'O');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(hard);
+        x += SPACE;
+      }else if (item == 'n') {
+        enemyCounter = enemies.size();
+        e = new Enemy(x, y, 1, enemyCounter, 'n');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(e);
+        x += SPACE;
+      }else if (item == 'N') {
+        enemyCounter = enemies.size();
+        hard = new Enemy(x, y, 2, enemyCounter, 'N');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(hard);
+        x += SPACE;
+      }else if (item == 'm') {
+        enemyCounter = enemies.size();
+        e = new Enemy(x, y, 1, enemyCounter, 'm');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(e);
+        x += SPACE;
+      }else if (item == 'M') {
+        enemyCounter = enemies.size();
+        hard = new Enemy(x, y, 2, enemyCounter, 'M');
+        a = new Area(x, y);
+        areas.add(a);
+        enemies.add(hard);
+        x += SPACE;
+      }else if (item == 'k') {
         a = new Area(x, y);
         areas.add(a);
         if(!hud.keyIcon.isVisible())
@@ -208,26 +263,23 @@ public class Board extends JPanel {
     chain = new Player(playerX, playerY);
     h = y;
 
-    enemies.addAll(enemies);
-    // enemies.addAll(hardEnemies);
-
-
     chain.setArrayList(collidables);
-
-    for(int i = 0; i < enemies.size(); i++){
-      if(i == 0){
-        enemies.get(i).leftRightMove(40);
-      }
-      else if(i == 1){
-        enemies.get(i).upDownMove(40);
-      }
-      else if(i == 2){
-        enemies.get(i).leftRightMoveRandom(2);
-      }
-      else if(i == 3){
-        enemies.get(i).circleMoveRandom(2);
-      }
-    }
+    Enemy.movePatterns(enemies);
+    // for(int i = 0; i < enemies.size(); i++){
+    //   if(i == 0){
+    //     enemies.get(i).leftRightMove(40);
+    //   }
+    //   else if(i == 1){
+    //     System.out.println(enemies.size() + "what");
+    //     enemies.get(i).upDownMove(40);
+    //   }
+    //   else if(i == 2){
+    //     enemies.get(i).leftRightMoveRandom(2);
+    //   }
+    //   else if(i == 3){
+    //     enemies.get(i).circleMoveRandom(2);
+    //   }
+    // }
 
     // for(int i = 0; i < hardEnemies.size(); i++){
     //   if(i == 0){
@@ -322,7 +374,6 @@ public class Board extends JPanel {
           // throw new ConcurrentModificationException();
         }
         catch (Exception e){
-          System.out.println("hmms*$&$&@#&@");
         }
       }
     };
@@ -433,7 +484,6 @@ public class Board extends JPanel {
     TimerTask timerTask = new TimerTask(){
       @Override
       public void run() {
-        System.out.println("**Timer Ends**");
         invincible = false;
       }
     };

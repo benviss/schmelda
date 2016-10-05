@@ -154,7 +154,6 @@ public class Actor {
     return -1;
   }
 
-
   public boolean checkTile(ArrayList<CobbleStone> _tiles) {
     int centerX = this.x + 9;
     int centerY = this.y + 12;
@@ -163,6 +162,21 @@ public class Actor {
     for (CobbleStone tile : _tiles) {
 
       if(((centerX - xModulo) == tile.x()) && ((centerY - yModulo) == tile.y())) {
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+ public boolean checkItem(ArrayList<Item> _items) {
+    int centerX = this.x + 9;
+    int centerY = this.y + 12;
+    int yModulo = centerY % 32;
+    int xModulo = centerX % 32;
+    for (Item item : _items) {
+
+      if(((centerX - xModulo) == item.x()) && ((centerY - yModulo) == item.y())) {
 
         return true;
       }

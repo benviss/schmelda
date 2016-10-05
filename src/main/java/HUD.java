@@ -20,16 +20,14 @@ public class HUD extends JPanel {
     public JLabel heartLabelThree;
     public JLabel score;
     public JLabel needKey;
+    public JLabel keyIcon;
 
     public HUD() {
-
         initHUD();
     }
 
     public void initHUD() {
-
         loadImage();
-
     }
 
     public void loadImage() {
@@ -42,6 +40,8 @@ public class HUD extends JPanel {
       heart3 = h3.getImage();
 
       ImageIcon filler = new ImageIcon("");
+
+      ImageIcon keyPic = new ImageIcon("images/key.png");
 
       heartLabelOne = new JLabel("", h1, JLabel.CENTER);
       add(heartLabelOne);
@@ -56,7 +56,10 @@ public class HUD extends JPanel {
       needKey.setForeground(Color.white);
       add(needKey);
       needKey.setVisible(false);
-      
+
+      keyIcon = new JLabel("", keyPic, JLabel.CENTER);
+      add(keyIcon);
+
       score = new JLabel("Score: " + Board.getScore(), filler , JLabel.LEADING);
       score.setIconTextGap(200);
       score.setForeground(Color.white);

@@ -201,12 +201,6 @@ public class Actor {
     int x = this.x + 12;
     int y = this.y - 20;
 
-
-    for(Actor actor : _allCollidableActors)
-    {
-      if(((Math.abs(actor.x()+16 - x) < 20) && (Math.abs(actor.y()-16 - y) < 20)))
-      {
-
     for(Enemy currentEnemy : _allEnemies){
 
       if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){

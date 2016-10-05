@@ -279,8 +279,6 @@ public class Board extends JPanel {
             else
               hud.heartLabelThree.setVisible(false);
 
-            System.out.println("**Timer Starts**");
-            System.out.println("**Take Damage**");
             InvincibleTimer();
           }
 
@@ -403,6 +401,7 @@ public void startTimer() {
     warps.clear();
     enemies.clear();
     hardEnemies.clear();
+    totalEnemies.clear();
     collidables.clear();
     items.clear();
     initWorld();

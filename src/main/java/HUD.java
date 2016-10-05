@@ -59,6 +59,7 @@ public class HUD extends JPanel {
 
       keyIcon = new JLabel("", keyPic, JLabel.CENTER);
       add(keyIcon);
+      keyIcon.setVisible(false);
 
       score = new JLabel("Score: " + Board.getScore(), filler , JLabel.LEADING);
       score.setIconTextGap(200);

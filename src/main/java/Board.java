@@ -14,12 +14,11 @@ import java.util.TimerTask;
 import java.util.regex.*;
 
 
-public class Board extends JPanel{
+public class Board extends JPanel {
 
   // Set size to image size
   private final int OFFSET = 32;
   private final int SPACE = 32;
-
 
   // player starting position
   private int playerX = 320;
@@ -38,6 +37,7 @@ public class Board extends JPanel{
   private ArrayList<Warp> warps = new ArrayList<>();
   private ArrayList<CobbleStone> tiles = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
+  private ArrayList<Item> items = new ArrayList();
 
   private Player chain;
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -86,7 +86,7 @@ public class Board extends JPanel{
     Pillar pillar;
     Water w;
     StatueTop statueTop;
-    Key key;
+    Item key;
 
     Enemy e;
     Fire f;
@@ -124,8 +124,8 @@ public class Board extends JPanel{
       } else if (item == 'k') {
         a = new Area(x, y);
         areas.add(a);
-        key = new Key(x, y);
-        areas.add(key);
+        key = new Item(x, y);
+        items.add(key);
         x += SPACE;
       } else if (item == ' ') {
         x += SPACE;
@@ -202,9 +202,8 @@ public class Board extends JPanel{
     world.addAll(warps);
     world.addAll(collidables);
     world.addAll(enemies);
+    world.addAll(items);
     world.add(chain);
-
-
 
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
@@ -328,6 +327,12 @@ public void startTimer() {
             repaint();
           }
         }
+
+        if(chain.checkItem(items)) {
+            hud.keyIcon.setVisible(true);
+            items.clear();
+            repaint();
+          }
 
         repaint();
     }

@@ -94,6 +94,7 @@ public class Board extends JPanel {
     StatueTop statueTop;
     Item key;
 
+
     Enemy e;
     Enemy hard;
     Fire f;
@@ -110,7 +111,7 @@ public class Board extends JPanel {
         }
         x = OFFSET;
       } else if (item == '#') {
-        wall = new Wall(x, y);
+        wall = new Wall(x, y, 'g');
         collidables.add(wall);
         x += SPACE;
       } else if (item == 'w') {
@@ -260,7 +261,28 @@ public class Board extends JPanel {
         castleWall = new CastleWall(x,y);
         collidables.add(castleWall);
         x += SPACE;
+      } else if (item == 'g') {
+        wall = new Wall(x,y, 'g');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'l') {
+        wall = new Wall(x,y, 'l');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'c') {
+        wall = new Wall(x,y, 'c');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'h') {
+        wall = new Wall(x,y, 'h');
+        collidables.add(wall);
+        x += SPACE;
       }
+
+
+
+
+
     }
     chain = new Player(playerX, playerY);
     h = y;

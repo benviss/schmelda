@@ -15,6 +15,7 @@ public class Enemy extends Actor {
   private boolean inverse = false;
   private int stepCounter;
   private int mId;
+  private int mType;
   private int ruld = 0;
   private int calc = 3;
   private char movePattern;
@@ -23,6 +24,7 @@ public class Enemy extends Actor {
   public Enemy(int x, int y, int type, int _id, char _move) {
     super(x, y);
     mId = _id;
+    mType = type;
     timer = new Timer();
     this.movePattern = _move;
     if (type == 1) {
@@ -42,6 +44,9 @@ public class Enemy extends Actor {
   public int getId(){
     return mId;
   }
+  public int getType(){
+    return mType;
+  }
   public char getMovePattern() {
     return movePattern;
   }
@@ -51,6 +56,7 @@ public class Enemy extends Actor {
     int ny = this.y() + y;
     this.setX(nx);
     this.setY(ny);
+
   }
 
   public void leftRightMove(int speed){
@@ -90,6 +96,7 @@ public class Enemy extends Actor {
           stepCounter = 0;
           inverse = !inverse;
         }
+
       }
     };
     this.timer.schedule(timerTask, 0, speed);
@@ -178,6 +185,31 @@ public class Enemy extends Actor {
       }
     };
     this.timer.schedule(timerTask, 0, 50);
+  }
+
+    public void slimeSpawn(ArrayList<Enemy> enemies) {
+    TimerTask timerTask2 = new TimerTask(){
+       @Override
+       public void run() {
+         if(Board.levelCount == 2)
+         {
+          int enemyCounter = enemies.size();
+          System.out.println("enemies size: " + enemies.size());
+          Enemy e = new Enemy(1000, 800, 1, enemyCounter, 'm');
+          e.upDownMove(40);
+          enemies.add(e);
+          System.out.println("Generate Slime");
+
+        }
+        else if(Board.levelCount != 2)
+        {
+          timer2.cancel();
+          System.out.println("Slime Timer Cancel");
+        }
+      }
+    };
+      this.timer2.schedule(timerTask2, 1000, 1000);
+      System.out.println("Timer Run");
   }
 
   public static void movePatterns(ArrayList<Enemy> _enemies) {

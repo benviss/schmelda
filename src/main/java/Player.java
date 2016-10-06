@@ -96,7 +96,6 @@ public class Player extends Actor{
   }
 
   public void setAttackingImg(){
-    System.out.println(movementDirection);
     if(movementDirection.equals("images/chain-up.gif"
   ) || movementDirection.equals("images/chain-right.gif")) {
       URL loc = this.getClass().getResource("images/attack-right.gif");
@@ -147,28 +146,24 @@ public class Player extends Actor{
         this.setX(this.x() + dx);
         this.setY(this.y() + dy);
       }else {
-        System.out.println("Hit left wall up");
       }
     } else if (this.moveDirection.equals("Down")) {
       if(!this.checkCollidable(collidables,"Down")) {
         this.setX(this.x() + dx);
         this.setY(this.y() + dy);
       }else {
-        System.out.println("Hit left wall down");
       }
     } else if (this.moveDirection.equals("Left")) {
       if(!this.checkCollidable(collidables,"Left")) {
         this.setX(this.x() + dx);
         this.setY(this.y() + dy);
       } else {
-        System.out.println("Hit left wall lwft");
       }
     } else if (this.moveDirection.equals("Right")) {
       if(!this.checkCollidable(collidables,"Right")) {
         this.setX(this.x() + dx);
         this.setY(this.y() + dy);
       }else {
-        System.out.println("Hit left wall right");
       }
     }
   }

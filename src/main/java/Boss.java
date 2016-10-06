@@ -9,62 +9,109 @@ import java.util.Random;
 
 public class Boss extends Actor {
 
-private Image fire;
-private Image blob;
-public Timer timer;
-public Timer timer2 = new Timer();
+  private Image fire;
+  private Image blob;
+  public Timer timer;
+  public Timer timer2 = new Timer();
 
-public FireBlast blast;
+  public int health = 5;
+  private boolean alive = true;
+  private int invincible = 2000;
+  private long lastHit = 0;
 
-private boolean clock = true;
+  public FireBlast blast;
 
-Random myRandomGenerator = new Random();
+  private boolean clock = true;
 
-    public Boss(int x, int y) {
-        super(x, y);
+  Random myRandomGenerator = new Random();
 
-        timer = new Timer();
-        this.collidable = true;
-        URL loc = this.getClass().getResource("images/kingBlob.gif");
-        ImageIcon iia = new ImageIcon(loc);
-        Image blob = iia.getImage();
-        this.setImage(blob);
-        move(-32,-32);
-    }
+  public Boss(int x, int y) {
+    super(x, y);
 
-    public void move(int x, int y) {
-        int nx = this.x() + x;
-        int ny = this.y() + y;
-        this.setX(nx);
-        this.setY(ny);
-    }
+    timer = new Timer();
+    this.collidable = true;
+    URL loc = this.getClass().getResource("images/kingBlob.gif");
+    ImageIcon iia = new ImageIcon(loc);
+    Image blob = iia.getImage();
+    this.setImage(blob);
+    move(-32,-32);
+  }
 
-    public void fireBlastCounter(){
+  public void move(int x, int y) {
+    int nx = this.x() + x;
+    int ny = this.y() + y;
+    this.setX(nx);
+    this.setY(ny);
+  }
+
+  public boolean getAlive() {
+    return alive;
+  }
+  public int health() {
+    return health;
+  }
+  public void fireBlastCounter(Boss boss){
       TimerTask timerTask = new TimerTask(){
 
         @Override
         public void run() {
           if(clock){
-            blast = new FireBlast(370,670);
+            blast = new FireBlast(boss.x()-50,boss.y()-50);
             clock = false;
-            Board.isFire = true;
-            System.out.println("Fire on: " + Board.isFire );
+            Board.fireState = true;
           }
           else{
 
             clock = true;
-            Board.isFire = false;
-            System.out.println("Fire off: " + Board.isFire );
-            if(Board.levelCount != 1)
+            Board.fireState = false;
+            if(Board.levelCount != 0)
             {
               timer.cancel();
-              System.out.println("Timer cancelled");
+            }
+            if(!alive)
+            {
+              timer.cancel();
             }
           }
         }
 
       };
-        this.timer.schedule(timerTask, 3000, 3000);
-    }
+      this.timer.schedule(timerTask, 3000, 3000);
 
+  }
+
+  public boolean checkBoss(Player chain){
+    int x = chain.x() + 12;
+    int y = chain.y() - 20;
+
+    if((Math.abs(this.x()+16 - x) < 40) && (Math.abs(this.y()-16 - y) < 40)){
+      if (chain.getAttacking()){
+        System.out.println("  x  " + x + "  **  " + "  y  " + y + "  **  ");
+        System.out.println("  x  " + this.x() + "  **  " + "  y  " + this.y() + "  **  ");
+        if(this.checkBossHealth()) {
+          if(this.alive) {
+            Board.score += 5000;
+            System.out.println("Win");
+            this.alive = false;
+          }
+          return true;
+        } else {
+          System.out.println("hit");
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean checkBossHealth() {
+    if (System.currentTimeMillis() - lastHit > invincible) {
+      health -= 1;
+      lastHit = System.currentTimeMillis();
+    }
+    if(health == 0) {
+      return true;
+    }
+    return false;
+  }
 }

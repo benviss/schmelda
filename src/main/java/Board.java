@@ -61,8 +61,9 @@ public class Board extends JPanel {
   private boolean invincible = false;
   private final int DELAY = 10;
 
-  public static boolean isFire = false;
+  public static boolean fireState = false;
 
+  private ArrayList<Boss> bosses = new ArrayList<>();
   private Boss boss;
 
   public Board() {
@@ -136,11 +137,13 @@ public class Board extends JPanel {
         areas.add(a);
         x += SPACE;
       } else if (item == 'B') {
-        a = new Area(x, y);
-        areas.add(a);
+        dangerTile = new CobbleStone(x, y);
+        dangerTiles.add(dangerTile);
+        cobbleStone = new CobbleStone(x, y);
+        areas.add(cobbleStone);
         boss = new Boss(x, y);
-        boss.fireBlastCounter();
-        collidables.add(boss);
+        boss.fireBlastCounter(boss);
+        bosses.add(boss);
         x += SPACE;
       } else if (item == 'e') {
         enemyCounter = enemies.size();
@@ -268,12 +271,14 @@ public class Board extends JPanel {
         x += SPACE;
       } else if (item == 'z') {
         specialTile = new CobbleStone(x,y);
-        areas.add(specialTile);
+        areas.add(specialTile); //Displays HUD message for locked castle kdoor
         tiles.add(specialTile);
         x += SPACE;
       } else if (item == 'd') {
         dangerTile = new CobbleStone(x,y);
         dangerTiles.add(dangerTile);
+        cobbleStone = new CobbleStone(x,y);
+        areas.add(cobbleStone);
         x += SPACE;
       } else if (item == 'I') {
         pillar = new Pillar(x,y);
@@ -352,14 +357,16 @@ public class Board extends JPanel {
 
     world.addAll(dangerTiles);
     world.addAll(areas);
-    if(isFire){
+    if(fireState){
       world.add(boss.blast);
     }
     world.addAll(warps);
     world.addAll(collidables);
+    world.addAll(bosses);
     world.addAll(enemies);
     world.addAll(items);
     world.add(chain);
+
 
     for (int i = 0; i < world.size(); i++) {
       Actor item = (Actor) world.get(i);
@@ -407,7 +414,7 @@ public class Board extends JPanel {
 
       if(chain.checkTile(dangerTiles, chain)){
 
-        if(!invincible && isFire){
+        if(!invincible && fireState){
 
           if(hud.heartLabelTwo.isVisible() == false) {
             hud.heartLabelTwo.setVisible(true);
@@ -453,6 +460,13 @@ public class Board extends JPanel {
         try{
           chain.move();
           chain.checkAttack();
+          if (levelCount == 0) {
+            boss.checkBoss(chain);
+            if(!boss.getAlive()) {
+              bosses.clear();
+              dangerTiles.clear();
+            }
+          }
           if(chain.checkWarp(warps) != -1) {
             levelCount = chain.checkWarp(warps);
             chain.setNewPosition();
@@ -498,15 +512,12 @@ public class Board extends JPanel {
         chain.setMovement("Down");
         chain.setDy(chain.getSpace());
       } else if (key == KeyEvent.VK_SPACE) {
-        chain.setAttackingImg();
-        chain.attacking();
-        playOnce(swordSound);
         if(chain.checkAttack()) {
+          playOnce(swordSound);
           chain.setAttackingImg();
           chain.attacking();
         }
 
-        System.out.println("SWORD ATTACK GO!");
       } else if (key == KeyEvent.VK_R) {
         restartLevel();
       }
@@ -560,6 +571,7 @@ public class Board extends JPanel {
     areas.clear();
     warps.clear();
     enemies.clear();
+    bosses.clear();
     collidables.clear();
     items.clear();
     initWorld();

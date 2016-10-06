@@ -8,7 +8,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Timer;
-
+import javax.sound.sampled.*;
+import java.io.*;
+import sun.audio.*;
 
 import java.util.TimerTask;
 import java.util.regex.*;
@@ -23,6 +25,8 @@ public class Board extends JPanel {
   // player starting position
   private int playerX = 320;
   private int playerY = 640;
+
+  private MakeSound jutebox = new MakeSound();
 
   public static int score = 0;
 
@@ -45,6 +49,11 @@ public class Board extends JPanel {
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   public int enemyCounter;
 
+  File mainTheme = new File("sounds/backgroundTheme.wav");
+  File swordSound = new File("sounds/swordAttack.wav");
+  File damageSound = new File("sounds/damageSound.wav");
+  File deathSound = new File("sounds/deathSound.wav");
+
   private int w = 0;
   private int h = 0;
   public static int levelCount = 1;
@@ -61,6 +70,8 @@ public class Board extends JPanel {
     setFocusable(true);
     initWorld();
     startTimer();
+    playLoop(mainTheme);
+    //music();
   }
 
   public int getBoardWidth() {
@@ -94,7 +105,6 @@ public class Board extends JPanel {
     Water w;
     StatueTop statueTop;
     Item key;
-
 
     Enemy e;
     Enemy hard;
@@ -372,13 +382,16 @@ public class Board extends JPanel {
             chain.setNewPosition();
             playerX = 1000;
             playerY = 200;
+            playOnce(deathSound);
             score = 0;
             restartLevel();
             repaint();
           } else if(hud.heartLabelThree.isVisible() == false) {
             hud.heartLabelTwo.setVisible(false);
+            playOnce(damageSound);
           } else {
             hud.heartLabelThree.setVisible(false);
+            playOnce(damageSound);
           }
           InvincibleTimer();
         }
@@ -398,12 +411,15 @@ public class Board extends JPanel {
             playerX = 1000;
             playerY = 200;
             score = 0;
+            playOnce(deathSound);
             restartLevel();
             repaint();
           } else if(hud.heartLabelThree.isVisible() == false) {
             hud.heartLabelTwo.setVisible(false);
+            playOnce(damageSound);
           } else {
             hud.heartLabelThree.setVisible(false);
+            playOnce(damageSound);
           }
           InvincibleTimer();
           invincible = true;
@@ -478,6 +494,7 @@ public class Board extends JPanel {
       } else if (key == KeyEvent.VK_SPACE) {
         chain.setAttackingImg();
         chain.attacking();
+        playOnce(swordSound);
         System.out.println("SWORD ATTACK GO!");
       } else if (key == KeyEvent.VK_R) {
         restartLevel();
@@ -551,5 +568,72 @@ public class Board extends JPanel {
     this.timer.schedule(timerTask, 1000);
   }
 
+  public void playLoop(File file)
+  {
+      try
+      {
+          final Clip clip = (Clip)AudioSystem.getLine(new Line.Info(Clip.class));
+
+          clip.addLineListener(new LineListener()
+          {
+              @Override
+              public void update(LineEvent event)
+              {
+                  if (event.getType() == LineEvent.Type.STOP)
+                      clip.close();
+              }
+          });
+
+          clip.open(AudioSystem.getAudioInputStream(file));
+          clip.loop(100);
+          clip.start();
+      }
+      catch (Exception exc)
+      {
+          exc.printStackTrace(System.out);
+      }
+  }
+
+  public void playOnce(File file)
+  {
+      try
+      {
+          final Clip clip = (Clip)AudioSystem.getLine(new Line.Info(Clip.class));
+
+          clip.addLineListener(new LineListener()
+          {
+              @Override
+              public void update(LineEvent event)
+              {
+                  if (event.getType() == LineEvent.Type.STOP)
+                      clip.close();
+              }
+          });
+
+          clip.open(AudioSystem.getAudioInputStream(file));
+          clip.start();
+      }
+      catch (Exception exc)
+      {
+          exc.printStackTrace(System.out);
+      }
+  }
+
+  /*public void music()
+  {
+     AudioInputStream as1 = AudioSystem.getAudioInputStream(new java.io.FileInputStream("sounds/backgroundTheme.wav"));
+     AudioFormat af = as1.getFormat();
+     Clip clip1 = AudioSystem.getClip();
+     DataLine.Info info = new DataLine.Info(Clip.class, af);
+
+     Line line1 = AudioSystem.getLine(info);
+
+     if ( ! line1.isOpen() )
+     {
+      clip1.open(as1);
+      clip1.loop(Clip.LOOP_CONTINUOUSLY);
+      clip1.start();
+     }
+  } */
 
 }

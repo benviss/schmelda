@@ -65,7 +65,6 @@ Random myRandomGenerator = new Random();
 
       };
         this.timer.schedule(timerTask, 3000, 3000);
-
     }
 
 }

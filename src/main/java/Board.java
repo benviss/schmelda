@@ -28,6 +28,7 @@ public class Board extends JPanel {
 
   public HUD hud = new HUD();
   public Timer timer = new Timer();
+  public Timer timer2 = new Timer();
   public Timer newtimer = new Timer();
 
   public Level level = new Level();
@@ -101,9 +102,11 @@ public class Board extends JPanel {
     Path p;
     String currentLevel = Level.getLevel(levelCount);
 
+
     for (int i = 0; i < currentLevel.length(); i++) {
       char item = currentLevel.charAt(i);
 
+      // makes slimes on specific Level
       if (item == '\n') {
         y += SPACE;
         if (this.w < x) {
@@ -135,6 +138,9 @@ public class Board extends JPanel {
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
+        if(levelCount == 2){
+          e.slimeSpawn(enemies);
+        }
         x += SPACE;
       } else if (item == 'E') {
         enemyCounter = enemies.size();
@@ -352,6 +358,7 @@ public class Board extends JPanel {
         g.drawString("Completed", 25, 20);
       }
 
+
       if(chain.checkEnemy(enemies, chain)){
         // if (chain.checkAttacking()) {
         //
@@ -400,6 +407,7 @@ public class Board extends JPanel {
           invincible = true;
         }
       }
+
     }
   }
 
@@ -540,5 +548,6 @@ public class Board extends JPanel {
 
     this.timer.schedule(timerTask, 1000);
   }
+
 
 }

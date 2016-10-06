@@ -232,7 +232,13 @@ public class Board extends JPanel {
         warp = new Warp(x, y, item);
         warps.add(warp);
         x += SPACE;
-      } else if (item == '%') {
+      } else if (item == 'i') {
+        a = new Area(x, y);
+        areas.add(a);
+        warp = new Warp(x, y, 'i');
+        warps.add(warp);
+        x += SPACE;
+      }else if (item == '%') {
         statueBottom = new StatueBottom(x,y);
         collidables.add(statueBottom);
         x += SPACE;
@@ -466,8 +472,10 @@ public class Board extends JPanel {
         chain.setMovement("Down");
         chain.setDy(chain.getSpace());
       } else if (key == KeyEvent.VK_SPACE) {
-        chain.setAttackingImg();
-        chain.attacking();
+        if(chain.checkAttack()) {
+          chain.setAttackingImg();
+          chain.attacking();
+        }
         System.out.println("SWORD ATTACK GO!");
       } else if (key == KeyEvent.VK_R) {
         restartLevel();
@@ -507,7 +515,7 @@ public class Board extends JPanel {
         chain.setDy(0);
       }
       if (key == KeyEvent.VK_SPACE) {
-        chain.setMovingDown();
+        // chain.setMovingDown();
       }
     }
   }

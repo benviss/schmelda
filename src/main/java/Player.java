@@ -14,10 +14,11 @@ public class Player extends Actor{
   private final String movingRight = "images/chain-right.gif";
   private final String movingDown = "images/chain-down.gif";
   private final String movingLeft = "images/chain-left.gif";
-  private final String idleImg = "images/chain-down.gif";
 
-  private final String attackingImg = "images/attack.gif";
-  private String movementDirection = "images/chain-down.gif";
+  private final String attackingImgRight = "images/attack-right.gif";
+  private final String attackingImgLeft = "images/attack-left.gif";
+  private String movementDirection = "images/chain-up.gif";
+  private String lastMove;
 
   private boolean attacking = false;
   public final static int ONE_SECOND = 1000;
@@ -26,6 +27,8 @@ public class Player extends Actor{
 
   public long attackTimer;
   public long lastAttack;
+
+  public long gifAnimation = 450;
   public long attackCooldown = ONE_SECOND;
 
   private int dx = 0;
@@ -76,18 +79,38 @@ public class Player extends Actor{
       this.attacking =true;
     }
   }
-  public void checkAttack(){
-    if(System.currentTimeMillis() - lastAttack > attackCooldown){
-      this.setIdleImg();
+  public boolean checkAttack(){
+    if(System.currentTimeMillis() - lastAttack > gifAnimation){
       this.attacking = false;
+      URL loc = this.getClass().getResource(movementDirection);
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      this.setImage(image);
+    }
+    if(System.currentTimeMillis() - lastAttack > attackCooldown) {
+          return true;
+    }
+    else {
+      return false;
     }
   }
+
   public void setAttackingImg(){
-    movementDirection = attackingImg;
-    URL loc = this.getClass().getResource(movementDirection);
-    ImageIcon iia = new ImageIcon(loc);
-    Image image = iia.getImage();
-    this.setImage(image);
+    System.out.println(movementDirection);
+    if(movementDirection.equals("images/chain-up.gif"
+  ) || movementDirection.equals("images/chain-right.gif")) {
+      URL loc = this.getClass().getResource("images/attack-right.gif");
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      image.flush();
+      this.setImage(image);
+    } else {
+      URL loc = this.getClass().getResource("images/attack-left.gif");
+      ImageIcon iia = new ImageIcon(loc);
+      Image image = iia.getImage();
+      image.flush();
+      this.setImage(image);
+    }
   }
   public void setMovingUp(){
     movementDirection = movingUp;
@@ -117,9 +140,7 @@ public class Player extends Actor{
     Image image = iia.getImage();
     this.setImage(image);
   }
-  public void setIdleImg(){
-    movementDirection = idleImg;
-  }
+
   public void move() {
     if (this.moveDirection.equals("Up")) {
       if(!this.checkCollidable(collidables,"Up")) {

@@ -13,11 +13,13 @@ public class Enemy extends Actor {
   public Timer timer;
   public Timer timer2 = new Timer();
   private boolean inverse = false;
+  private boolean clock = false;
   private int stepCounter;
   private int mId;
   private int mType;
   private int ruld = 0;
   private int calc = 3;
+  private int currentLimit = 0;
   private char movePattern;
   // private int speed;
 
@@ -187,28 +189,116 @@ public class Enemy extends Actor {
     this.timer.schedule(timerTask, 0, 50);
   }
 
+  public void mazeMove(int speed){
+    TimerTask timerTask = new TimerTask(){
+      @Override
+      public void run() {
+        if(ruld == 0){
+          move(0,1);
+          currentLimit = 127;
+        }else if(ruld == 1){
+          move(-1,0);
+          currentLimit = 512;
+        }else if(ruld == 2){
+          move(0,1);
+          currentLimit = 223;
+        }else if(ruld == 3){
+          move(1,0);
+          currentLimit = 256;
+        }else if(ruld == 4){
+          move(0,-1);
+          currentLimit = 128;
+        }else if(ruld == 5){
+          move(1,0);
+          currentLimit = 576;
+        }else if(ruld == 6){
+          move(0,1);
+          currentLimit = 63;
+        }else if(ruld == 7){
+          move(-1,0);
+          currentLimit = 320;
+        }else if(ruld == 8){
+          move(0,1);
+          currentLimit = 31;
+        }else if(ruld == 9){
+          move(-1,0);
+          currentLimit = 64;
+        }else if(ruld == 10){
+          move(0,1);
+          currentLimit = 95;
+        }else if(ruld == 11){
+          move(1,0);
+          currentLimit = 320;
+        }else if(ruld == 12){
+          move(0,1);
+          currentLimit = 159;
+        }else if(ruld == 13){
+          move(-1,0);
+          currentLimit = 736;
+        }else if(ruld == 14){
+          move(0,1);
+          currentLimit = 63;
+        }else if(ruld == 15){
+          move(1,0);
+          currentLimit = 416;
+        }else if(ruld == 16){
+          move(0,1);
+          currentLimit = 63;
+        }else if(ruld == 17){
+          move(-1,0);
+          currentLimit = 64;
+        }else if(ruld == 18){
+          move(0,1);
+          currentLimit = 63;
+        }else if(ruld == 19){
+          move(1,0);
+          currentLimit = 256;
+        }else if(ruld == 20){
+          move(0,1);
+          currentLimit = 159;
+        }
+        if( stepCounter > currentLimit)
+        {
+          ruld += 1;
+          stepCounter = 0;
+        }
+        stepCounter += 1;
+      }
+    };
+    this.timer.schedule(timerTask, 0, speed);
+  }
+
     public void slimeSpawn(ArrayList<Enemy> enemies) {
     TimerTask timerTask2 = new TimerTask(){
        @Override
        public void run() {
-         if(Board.levelCount == 2)
+         if(Board.levelCount == 9)
          {
           int enemyCounter = enemies.size();
           System.out.println("enemies size: " + enemies.size());
-          Enemy e = new Enemy(1000, 800, 1, enemyCounter, 'm');
-          e.upDownMove(40);
-          enemies.add(e);
+          if(clock){
+            Enemy e = new Enemy(832, 32, 1, enemyCounter, 'm');
+            clock = false;
+            e.mazeMove(40);
+            enemies.add(e);
+          }
+          else{
+            Enemy e = new Enemy(832, 32, 2, enemyCounter, 'm');
+            clock = true;
+            e.mazeMove(20);
+            enemies.add(e);
+          }
           System.out.println("Generate Slime");
 
         }
-        else if(Board.levelCount != 2)
+        else if(Board.levelCount != 9)
         {
           timer2.cancel();
           System.out.println("Slime Timer Cancel");
         }
       }
     };
-      this.timer2.schedule(timerTask2, 1000, 1000);
+      this.timer2.schedule(timerTask2, 3000, 3000);
       System.out.println("Timer Run");
   }
 

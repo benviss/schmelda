@@ -24,7 +24,7 @@ public class Board extends JPanel {
   private int playerX = 320;
   private int playerY = 640;
 
-  private static int score = 5;
+  public static int score = 0;
 
   public HUD hud = new HUD();
   public Timer timer = new Timer();
@@ -372,6 +372,7 @@ public class Board extends JPanel {
             chain.setNewPosition();
             playerX = 1000;
             playerY = 200;
+            score = 0;
             restartLevel();
             repaint();
           } else if(hud.heartLabelThree.isVisible() == false) {
@@ -396,6 +397,7 @@ public class Board extends JPanel {
             chain.setNewPosition();
             playerX = 1000;
             playerY = 200;
+            score = 0;
             restartLevel();
             repaint();
           } else if(hud.heartLabelThree.isVisible() == false) {

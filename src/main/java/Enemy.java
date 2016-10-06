@@ -15,6 +15,7 @@ public class Enemy extends Actor {
   private boolean inverse = false;
   private int stepCounter;
   private int mId;
+  private int mType;
   private int ruld = 0;
   private int calc = 3;
   private char movePattern;
@@ -23,6 +24,7 @@ public class Enemy extends Actor {
   public Enemy(int x, int y, int type, int _id, char _move) {
     super(x, y);
     mId = _id;
+    mType = type;
     timer = new Timer();
     this.movePattern = _move;
     if (type == 1) {
@@ -41,6 +43,9 @@ public class Enemy extends Actor {
   }
   public int getId(){
     return mId;
+  }
+  public int getType(){
+    return mType;
   }
   public char getMovePattern() {
     return movePattern;

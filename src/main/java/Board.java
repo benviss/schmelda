@@ -232,7 +232,7 @@ public class Board extends JPanel {
         p = new Path(x, y);
         areas.add(p);
         x += SPACE;
-      } else if (item == '1' || item == '2' || item == '3' || item == '4'|| item == '5'|| item == '6'|| item == '7'|| item == '8'|| item == '9') {
+      } else if (item == '1' || item == '2' || item == '3' || item == '4'|| item == '5'|| item == '6'|| item == '7'|| item == '8'|| item == '9'|| item == '0') {
         p = new Path(x, y);
         areas.add(p);
         warp = new Warp(x, y, item);

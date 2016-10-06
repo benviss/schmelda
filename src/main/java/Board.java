@@ -53,6 +53,8 @@ public class Board extends JPanel {
 
   public static boolean isFire = false;
 
+  private Boss boss;
+
   public Board() {
     addKeyListener(new TAdapter());
     setFocusable(true);
@@ -91,7 +93,6 @@ public class Board extends JPanel {
     Water w;
     StatueTop statueTop;
     Item key;
-    Boss boss;
 
 
     Enemy e;
@@ -329,6 +330,9 @@ public class Board extends JPanel {
 
     world.addAll(dangerTiles);
     world.addAll(areas);
+    if(isFire){
+      world.add(boss.blast);
+    }
     world.addAll(warps);
     world.addAll(collidables);
     world.addAll(enemies);

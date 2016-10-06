@@ -229,11 +229,11 @@ public class Actor {
 
   public void setNewPosition(){
     if(this.x < 100){
-      this.x = 1536;
+      this.x = 1568;
     } else if(this.x > 1500){
       this.x = 64;
     } else if(this.y < 100){
-      this.y = 832;
+      this.y = 928;
     } else if(this.y > 800){
       this.y = 64;
     }

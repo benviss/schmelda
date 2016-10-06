@@ -9,12 +9,22 @@ public class Warp extends Actor {
 
     public Warp(int x, int y, char _levelId) {
         super(x, y);
+        URL loc;
+        ImageIcon iia;
+        if(_levelId == 'i') {
+          levelId = 8;
+          loc = this.getClass().getResource("images/tree.png");
+          iia = new ImageIcon(loc);
+          image = iia.getImage();
+          this.setImage(image);
+        } else {
+          levelId = Character.getNumericValue(_levelId);
+          loc = this.getClass().getResource("images/chain-down.gif");
+          iia = new ImageIcon(loc);
+          image = iia.getImage();
+          this.setImage(image);
+        }
 
-        levelId = Character.getNumericValue(_levelId);
-        URL loc = this.getClass().getResource("images/chain-down.gif");
-        ImageIcon iia = new ImageIcon(loc);
-        image = iia.getImage();
-        this.setImage(image);
 
     }
 

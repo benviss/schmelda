@@ -421,6 +421,15 @@ public class Board extends JPanel {
         try{
           chain.move();
           chain.checkAttack();
+          if(chain.checkWarp(warps) != -1) {
+            levelCount = chain.checkWarp(warps);
+            chain.setNewPosition();
+            playerX = chain.x();
+            playerY = chain.y();
+            restartLevel();
+            hud.needKey.setVisible(false);
+            repaint();
+          }
           // throw new ConcurrentModificationException();
         }
         catch (Exception e){
@@ -463,15 +472,7 @@ public class Board extends JPanel {
       } else if (key == KeyEvent.VK_R) {
         restartLevel();
       }
-      if(chain.checkWarp(warps) != -1) {
-        levelCount = chain.checkWarp(warps);
-        chain.setNewPosition();
-        playerX = chain.x();
-        playerY = chain.y();
-        restartLevel();
-        hud.needKey.setVisible(false);
-        repaint();
-      }
+
 
       if(chain.checkTile(tiles)) {
         if(levelCount == 8)

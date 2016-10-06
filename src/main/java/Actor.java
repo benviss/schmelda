@@ -105,15 +105,35 @@ public class Actor {
       for (Actor _actor : _allCollidableActors) {
         if((_actor.x() == xCoordinate && _actor.y() == yCoordinate)) {
           if(_actor.getCollidable()) {
+            // System.out.println(_actor.x() + "******actor x coordinates******");
+            // System.out.println(_actor.y() + "******actor x coordinates******");
+            // System.out.println(yCoordinate + "******y coordinates******");
+            // System.out.println(xCoordinate + "******x coordinates******");
+            // System.out.println(ytrCoordinate + "******ytr coordinates******");
+            // System.out.println(rxModulo + "******right x coordinates******");
+            // System.out.println(byModulo + "******bottom y coordinates******");
+            // System.out.println(centerXModulo + "******center x coordinates******");
+            // System.out.println(centerYModulo + "******center y coordinates******");
+
             return true;
           }
         }
         if((_actor.x() == (xCoordinate) && _actor.y() == ytrCoordinate)) {
           if(_actor.getCollidable()) {
+            // System.out.println(_actor.x() + "******actor x coordinates******");
+            // System.out.println(_actor.y() + "******actor x coordinates******");
+            // System.out.println(yCoordinate + "******y coordinates******");
+            // System.out.println(xCoordinate + "******x coordinates******");
+            // System.out.println(ytrCoordinate + "******ytr coordinates******");
+
             return true;
           }
         }
       }
+      // System.out.println(yCoordinate + "******y coordinates******");
+      // System.out.println(xCoordinate + "******x coordinates******");
+      // System.out.println(ytrCoordinate + "******ytr coordinates******");
+      //
       return false;
     }
     if (_direction.equals("Right")) {
@@ -141,13 +161,36 @@ public class Actor {
   }
 
   public int checkWarp(ArrayList<Warp> _warps) {
-    int centerX = this.x + 9;
-    int centerY = this.y + 12;
-    int yModulo = centerY % 32;
-    int xModulo = centerX % 32;
-    for (Warp warp : _warps) {
+    int centerXcoord = this.x + 9;
+    int centerYcoord = this.y + 12;
 
-      if(((centerX - xModulo) == warp.x()) && ((centerY - yModulo) == warp.y())) {
+    int xcoord = this.x;
+    int ycoord = this.y;
+
+    int rxcoord = this.x + 18;
+    int bycoord = this.y + 24;
+
+    int centerYModulo = centerYcoord % 32;
+    int centerXModulo = centerXcoord % 32;
+
+    int yModulo = ycoord % 32;
+    int xModulo = xcoord % 32;
+
+    int byModulo = bycoord % 32;
+    int rxModulo = rxcoord % 32;
+
+    for (Warp warp : _warps) {
+      // System.out.println(warp.x() + "******warp x coordinates******");
+      // System.out.println(warp.y() + "******warp x coordinates******");
+      // System.out.println(yModulo + "******x coordinates******");
+      // System.out.println(xModulo + "******y coordinates******");
+      // System.out.println(rxModulo + "******right x coordinates******");
+      // System.out.println(byModulo + "******bottom y coordinates******");
+      // System.out.println(centerXModulo + "******center x coordinates******");
+      // System.out.println(centerYModulo + "******center y coordinates******");
+      if(((centerXcoord - centerXModulo) == warp.x()) && ((centerYcoord - centerYModulo) == warp.y()) ||
+        (((xcoord - xModulo) == warp.x()) && ((ycoord - yModulo) == warp.y())) ||
+        (((rxcoord - rxModulo) == warp.x()) && ((bycoord - byModulo) == warp.y()))) {
 
         return warp.getId();
       }

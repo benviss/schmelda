@@ -23,8 +23,8 @@ public class Board extends JPanel {
   private final int SPACE = 32;
 
   // player starting position
-  private int playerX = 320;
-  private int playerY = 640;
+  private int playerX = 968;
+  private int playerY = 500;
 
   private MakeSound jutebox = new MakeSound();
 
@@ -151,7 +151,7 @@ public class Board extends JPanel {
         a = new Area(x, y);
         areas.add(a);
         enemies.add(e);
-        if(levelCount == 2){
+        if(levelCount == 9){
           e.slimeSpawn(enemies);
         }
         x += SPACE;
@@ -304,13 +304,10 @@ public class Board extends JPanel {
         wall = new Wall(x,y, 'h');
         collidables.add(wall);
         x += SPACE;
+
       }
-
-
-
-
-
     }
+
     chain = new Player(playerX, playerY);
     h = y;
 
@@ -526,8 +523,21 @@ public class Board extends JPanel {
       if(chain.checkTile(tiles)) {
         if(levelCount == 8)
         {
-          hud.needKey.setVisible(true);
-          repaint();
+          if(hud.keyIcon.isVisible() == false)
+          {
+            hud.needKey.setVisible(true);
+            repaint();
+          }
+          else
+          {
+            levelCount = 9;
+            chain.setNewPosition();
+            playerX = 968;
+            playerY = 900;
+            restartLevel();
+            hud.keyIcon.setVisible(false);
+            repaint();
+          }
         }
       }
 
@@ -641,22 +651,5 @@ public class Board extends JPanel {
           exc.printStackTrace(System.out);
       }
   }
-
-  /*public void music()
-  {
-     AudioInputStream as1 = AudioSystem.getAudioInputStream(new java.io.FileInputStream("sounds/backgroundTheme.wav"));
-     AudioFormat af = as1.getFormat();
-     Clip clip1 = AudioSystem.getClip();
-     DataLine.Info info = new DataLine.Info(Clip.class, af);
-
-     Line line1 = AudioSystem.getLine(info);
-
-     if ( ! line1.isOpen() )
-     {
-      clip1.open(as1);
-      clip1.loop(Clip.LOOP_CONTINUOUSLY);
-      clip1.start();
-     }
-  } */
 
 }

@@ -13,6 +13,7 @@ public class FireBlast extends Actor {
         URL loc = this.getClass().getResource("images/fireBlast.gif");
         ImageIcon iia = new ImageIcon(loc);
         image = iia.getImage();
+        image.flush();
         this.setImage(image);
 
     }

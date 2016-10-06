@@ -248,6 +248,14 @@ public class Actor {
       if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
+
+          if(currentEnemy.getType() == 1){
+            Board.score += 50;
+            System.out.println("score increase by 50!");
+          }
+          else if(currentEnemy.getType() == 2){
+            Board.score += 100;
+          }
         }
 
         return true;
@@ -255,8 +263,14 @@ public class Actor {
         else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 40)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 40))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
+          if(currentEnemy.getType() == 1){
+            Board.score += 50;
+            System.out.println("score increase by 50!");
+          }
+          else if(currentEnemy.getType() == 2){
+            Board.score += 100;
+          }
           return false;
-
       }
     }
   }

@@ -253,7 +253,8 @@ public class Actor {
 
     for(Enemy currentEnemy : _allEnemies){
 
-      if(((Math.abs(currentEnemy.x()+16 - x) < 20) && (Math.abs(currentEnemy.y()-16 - y) < 20))){
+      if(((Math.abs(currentEnemy.x()+16 - x) < 20) &&
+      (Math.abs(currentEnemy.y()-16 - y) < 20))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
 
@@ -268,7 +269,7 @@ public class Actor {
 
         return true;
       }
-        else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 60)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 60))){
+        else if(((Math.abs(currentEnemy.x()+16 - x) < 35) && (Math.abs(currentEnemy.y()-16 - y) < 35))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
           if(currentEnemy.getType() == 1){

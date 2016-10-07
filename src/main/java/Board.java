@@ -51,6 +51,7 @@ public class Board extends JPanel {
 
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   public int enemyCounter;
+  private Princess princess;
 
   File mainTheme = new File("sounds/backgroundTheme.wav");
   File swordSound = new File("sounds/swordAttack.wav");
@@ -102,7 +103,6 @@ public class Board extends JPanel {
     Wall wall;
     Area a;
     Tree t;
-
     Warp warp;
     Script script;
     Castle castle;
@@ -357,7 +357,6 @@ public class Board extends JPanel {
         {
           hert = new Heart(x,y);
           pickHearts.add(hert);
-          heartOnePickup = true;
         }
         if(levelCount == 0 && !heartTwoPickup)
         {
@@ -365,7 +364,6 @@ public class Board extends JPanel {
           areas.add(cobbleStone);
           hert = new Heart(x,y);
           pickHearts.add(hert);
-          heartTwoPickup = true;
         }
         x += SPACE;
       } else if (item == '@') {
@@ -535,6 +533,11 @@ public class Board extends JPanel {
             if(!boss.getAlive()) {
               bosses.clear();
               dangerTiles.clear();
+              //Add Princess 750, 450
+              princess = new Princess(650,400);
+              collidables.add(princess);
+              repaint();
+
             }
           }
           if(chain.checkWarp(warps) != -1) {
@@ -621,6 +624,14 @@ public class Board extends JPanel {
       }
 
       if(chain.checkHeart(pickHearts)) {
+        if(levelCount == 7)
+        {
+            heartOnePickup = true;
+        }
+        if(levelCount == 0)
+        {
+            heartTwoPickup = true;
+        }
         heart += 1;
         pickHearts.clear();
         repaint();
@@ -663,6 +674,7 @@ public class Board extends JPanel {
     bosses.clear();
     collidables.clear();
     scripts.clear();
+    pickHearts.clear();
     items.clear();
     initWorld();
     if (completed) {
@@ -703,7 +715,6 @@ public class Board extends JPanel {
       }
       catch (Exception exc)
       {
-          exc.printStackTrace(System.out);
       }
   }
 
@@ -728,7 +739,6 @@ public class Board extends JPanel {
       }
       catch (Exception exc)
       {
-          exc.printStackTrace(System.out);
       }
   }
 

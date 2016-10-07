@@ -4,7 +4,7 @@ import java.lang.*;
 
 public class Actor {
 
-  private final int SPACE = 1;
+  private final int SPACE = 4;
 
   private int x;
   private int y;

@@ -106,7 +106,7 @@ public class Board extends JPanel {
     Water w;
     StatueTop statueTop;
     Item key;
-
+    Space space;
     Enemy e;
     Enemy hard;
     Fire f;
@@ -228,6 +228,8 @@ public class Board extends JPanel {
         }
         x += SPACE;
       } else if (item == ' ') {
+        space = new Space(x, y);
+        collidables.add(space);
         x += SPACE;
       } else if (item == 'f') {
         f = new Fire(x, y);

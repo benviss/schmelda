@@ -219,6 +219,22 @@ public class Actor {
     return false;
   }
 
+  public boolean checkHeart(ArrayList<Heart> _hearts) {
+    int centerX = this.x + 9;
+    int centerY = this.y + 12;
+    int yModulo = centerY % 32;
+    int xModulo = centerX % 32;
+    for (Heart heart : _hearts) {
+
+      if(((centerX - xModulo) == heart.x()) && ((centerY - yModulo) == heart.y())) {
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   public void setNewPosition(){
     if(this.x < 100){
       this.x = 1568;
@@ -283,4 +299,5 @@ public class Actor {
 
     return false;
   }
+
 }

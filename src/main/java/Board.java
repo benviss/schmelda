@@ -47,6 +47,8 @@ public class Board extends JPanel {
   private ArrayList<Heart> pickHearts = new ArrayList();
 
   private Player chain;
+  private ArrayList<Script> scripts = new ArrayList<Script>();
+
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   public int enemyCounter;
 
@@ -102,6 +104,7 @@ public class Board extends JPanel {
     Tree t;
 
     Warp warp;
+    Script script;
     Castle castle;
     StatueBottom statueBottom;
     CobbleStone cobbleStone;
@@ -369,6 +372,12 @@ public class Board extends JPanel {
         castle = new Castle(x,y);
         collidables.add(castle);
         x += SPACE;
+      } else if (item == '!') {
+        a = new Area(x,y);
+        areas.add(a);
+        script = new Script(x,y);
+        scripts.add(script);
+        x += SPACE;
       }
     }
 
@@ -427,7 +436,9 @@ public class Board extends JPanel {
     world.addAll(enemies);
     world.addAll(items);
     world.addAll(pickHearts);
+    world.addAll(scripts);
     world.add(chain);
+
 
 
     for (int i = 0; i < world.size(); i++) {
@@ -651,6 +662,7 @@ public class Board extends JPanel {
     enemies.clear();
     bosses.clear();
     collidables.clear();
+    scripts.clear();
     items.clear();
     initWorld();
     if (completed) {

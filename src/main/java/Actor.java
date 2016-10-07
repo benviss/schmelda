@@ -180,14 +180,6 @@ public class Actor {
     int rxModulo = rxcoord % 32;
 
     for (Warp warp : _warps) {
-      // System.out.println(warp.x() + "******warp x coordinates******");
-      // System.out.println(warp.y() + "******warp x coordinates******");
-      // System.out.println(yModulo + "******x coordinates******");
-      // System.out.println(xModulo + "******y coordinates******");
-      // System.out.println(rxModulo + "******right x coordinates******");
-      // System.out.println(byModulo + "******bottom y coordinates******");
-      // System.out.println(centerXModulo + "******center x coordinates******");
-      // System.out.println(centerYModulo + "******center y coordinates******");
       if(((centerXcoord - centerXModulo) == warp.x()) && ((centerYcoord - centerYModulo) == warp.y()) ||
         (((xcoord - xModulo) == warp.x()) && ((ycoord - yModulo) == warp.y())) ||
         (((rxcoord - rxModulo) == warp.x()) && ((bycoord - byModulo) == warp.y()))) {
@@ -260,7 +252,7 @@ public class Actor {
 
         return true;
       }
-        else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 40)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 40))){
+        else if(((Math.abs(currentEnemy.x()+16 - x) >= 20) && (Math.abs(currentEnemy.x()+16 - x) < 60)) && ((Math.abs(currentEnemy.y()+16 - y) >= 20) && (Math.abs(currentEnemy.y()-16 - y) < 60))){
         if (chain.getAttacking() == true){
           _allEnemies.remove(_allEnemies.indexOf(currentEnemy));
           if(currentEnemy.getType() == 1){

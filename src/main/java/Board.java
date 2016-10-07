@@ -44,6 +44,7 @@ public class Board extends JPanel {
   private ArrayList<CobbleStone> dangerTiles = new ArrayList<>();
   private ArrayList collidables = new ArrayList();
   private ArrayList<Item> items = new ArrayList();
+  private ArrayList<Heart> pickHearts = new ArrayList();
 
   private Player chain;
   public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -65,6 +66,8 @@ public class Board extends JPanel {
 
   private ArrayList<Boss> bosses = new ArrayList<>();
   private Boss boss;
+
+  private int heart = 3;
 
   public Board() {
     addKeyListener(new TAdapter());
@@ -107,6 +110,7 @@ public class Board extends JPanel {
     StatueTop statueTop;
     Item key;
     Space space;
+    Heart hert;
     Enemy e;
     Enemy hard;
     Fire f;
@@ -306,7 +310,12 @@ public class Board extends JPanel {
         wall = new Wall(x,y, 'h');
         collidables.add(wall);
         x += SPACE;
-
+      }else if (item == 'H') {
+        a = new Area(x, y);
+        areas.add(a);
+        hert = new Heart(x,y);
+        pickHearts.add(hert);
+        x += SPACE;
       }
     }
 
@@ -364,6 +373,7 @@ public class Board extends JPanel {
     world.addAll(bosses);
     world.addAll(enemies);
     world.addAll(items);
+    world.addAll(pickHearts);
     world.add(chain);
 
 
@@ -382,64 +392,61 @@ public class Board extends JPanel {
 
 
       if(chain.checkEnemy(enemies, chain)){
-        // if (chain.checkAttacking()) {
-        //
-        // } else {
-        if(!invincible){
+            if(!invincible){
 
-          if(hud.heartLabelTwo.isVisible() == false) {
+              heart -= 1;
+              playOnce(damageSound);
+              InvincibleTimer();
+              invincible = true;
+            }
+          }
+
+          if(chain.checkTile(dangerTiles, chain)){
+
+            if(!invincible && fireState){
+              heart -= 1;
+              playOnce(damageSound);
+              InvincibleTimer();
+              invincible = true;
+            }
+          }
+
+          if(heart == 5){
+             hud.heartLabelFive.setVisible(true);
+          }
+          if(heart == 4){
+            hud.heartLabelFive.setVisible(false);
+            hud.heartLabelFour.setVisible(true);
+          }
+          if(heart == 3){
+             hud.heartLabelFour.setVisible(false);
+             hud.heartLabelThree.setVisible(true);
+          }
+          else if(heart == 2){
+             hud.heartLabelThree.setVisible(false);
+             hud.heartLabelTwo.setVisible(true);
+          }
+          else if(heart == 1){
+             hud.heartLabelTwo.setVisible(false);
+          }
+          else if(heart == 0){
+            heart = 3;
             hud.heartLabelTwo.setVisible(true);
             hud.heartLabelThree.setVisible(true);
             levelCount = 1;
             chain.setNewPosition();
             playerX = 1000;
             playerY = 200;
-            playOnce(deathSound);
-            score = 0;
-            restartLevel();
-            repaint();
-          } else if(hud.heartLabelThree.isVisible() == false) {
-            hud.heartLabelTwo.setVisible(false);
-            playOnce(damageSound);
-          } else {
-            hud.heartLabelThree.setVisible(false);
-            playOnce(damageSound);
-          }
-          InvincibleTimer();
-        }
-        invincible = true;
-        // }
-      }
-
-      if(chain.checkTile(dangerTiles, chain)){
-
-        if(!invincible && fireState){
-
-          if(hud.heartLabelTwo.isVisible() == false) {
-            hud.heartLabelTwo.setVisible(true);
-            hud.heartLabelThree.setVisible(true);
-            levelCount = 1;
-            chain.setNewPosition();
-            playerX = 1000;
-            playerY = 200;
             score = 0;
             playOnce(deathSound);
             restartLevel();
             repaint();
-          } else if(hud.heartLabelThree.isVisible() == false) {
-            hud.heartLabelTwo.setVisible(false);
-            playOnce(damageSound);
-          } else {
-            hud.heartLabelThree.setVisible(false);
-            playOnce(damageSound);
           }
-          InvincibleTimer();
-          invincible = true;
+
         }
-      }
 
     }
-  }
+
 
   // public void moveTimer(){
   //   TimerTask timerTask = new TimerTask(){
@@ -546,6 +553,12 @@ public class Board extends JPanel {
       if(chain.checkItem(items)) {
         hud.keyIcon.setVisible(true);
         items.clear();
+        repaint();
+      }
+
+      if(chain.checkHeart(pickHearts)) {
+        heart += 1;
+        pickHearts.clear();
         repaint();
       }
 

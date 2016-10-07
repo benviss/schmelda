@@ -18,6 +18,8 @@ public class HUD extends JPanel {
     public JLabel heartLabelOne;
     public JLabel heartLabelTwo;
     public JLabel heartLabelThree;
+    public JLabel heartLabelFour;
+    public JLabel heartLabelFive;
     public JLabel score;
     public JLabel needKey;
     public JLabel keyIcon;
@@ -38,6 +40,8 @@ public class HUD extends JPanel {
       heart2 = h2.getImage();
       ImageIcon h3 = new ImageIcon("images/Heart.gif");
       heart3 = h3.getImage();
+      ImageIcon h4 = new ImageIcon("images/Heart.gif");
+      ImageIcon h5 = new ImageIcon("images/Heart.gif");
 
       ImageIcon filler = new ImageIcon("");
 
@@ -51,6 +55,14 @@ public class HUD extends JPanel {
 
       heartLabelThree = new JLabel("", h3, JLabel.CENTER);
       add(heartLabelThree);
+
+      heartLabelFour = new JLabel("", h4, JLabel.CENTER);
+      heartLabelFour.setVisible(false);
+      add(heartLabelFour);
+
+      heartLabelFive= new JLabel("", h5, JLabel.CENTER);
+      heartLabelFive.setVisible(false);
+      add(heartLabelFive);
 
       needKey = new JLabel("The Door is Locked!", filler, JLabel.CENTER);
       needKey.setForeground(Color.white);

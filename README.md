@@ -24,10 +24,11 @@ Schmelda is a 2D Action-Adventure game written Java and built using Swing compon
 ## Support and contact details
 
 For questions, comments, or to report bugs contact:
-*Jason Downing - downingforce@gmail.com
-*Ben Vissotzky - ben.vissotzky@gmail.com
-*Garrett Boggs - garrett.boggs@my.wheaton.edu
-*Matt F Nicholas - fostermatt82@gmail.com
+
+* Jason Downing - downingforce@gmail.com
+* Ben Vissotzky - ben.vissotzky@gmail.com
+* Garrett Boggs - garrett.boggs@my.wheaton.edu
+* Matt F Nicholas - fostermatt82@gmail.com
 
 ## Technologies Used
 

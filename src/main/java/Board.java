@@ -68,6 +68,8 @@ public class Board extends JPanel {
   private Boss boss;
 
   private int heart = 3;
+  private boolean heartOnePickup = false;
+  private boolean heartTwoPickup = false;
 
   public Board() {
     addKeyListener(new TAdapter());
@@ -129,7 +131,7 @@ public class Board extends JPanel {
         }
         x = OFFSET;
       } else if (item == '#') {
-        wall = new Wall(x, y, 'g');
+        wall = new Wall(x, y, 'j');
         collidables.add(wall);
         x += SPACE;
       } else if (item == 'w') {
@@ -310,11 +312,55 @@ public class Board extends JPanel {
         wall = new Wall(x,y, 'h');
         collidables.add(wall);
         x += SPACE;
+      }else if (item == 'r') {
+        wall = new Wall(x,y, 'r');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 's') {
+        wall = new Wall(x,y, 's');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'a') {
+        wall = new Wall(x,y, 'a');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'b') {
+        wall = new Wall(x,y, 'b');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'u') {
+        wall = new Wall(x,y, 'u');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'p') {
+        wall = new Wall(x,y, 'p');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'y') {
+        wall = new Wall(x,y, 'y');
+        collidables.add(wall);
+        x += SPACE;
+      }else if (item == 'v') {
+        wall = new Wall(x,y, 'v');
+        collidables.add(wall);
+        x += SPACE;
       }else if (item == 'H') {
         a = new Area(x, y);
         areas.add(a);
-        hert = new Heart(x,y);
-        pickHearts.add(hert);
+        if(levelCount == 7 && !heartOnePickup)
+        {
+          hert = new Heart(x,y);
+          pickHearts.add(hert);
+          heartOnePickup = true;
+        }
+        if(levelCount == 0 && !heartTwoPickup)
+        {
+          cobbleStone = new CobbleStone(x,y);
+          areas.add(cobbleStone);
+          hert = new Heart(x,y);
+          pickHearts.add(hert);
+          heartTwoPickup = true;
+        }
         x += SPACE;
       }
     }

@@ -19,7 +19,7 @@ public class Warp extends Actor {
           this.setImage(image);
         } else {
           levelId = Character.getNumericValue(_levelId);
-          loc = this.getClass().getResource("images/chain-down.gif");
+          loc = this.getClass().getResource("images/new-grass.png");
           iia = new ImageIcon(loc);
           image = iia.getImage();
           this.setImage(image);

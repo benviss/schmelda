@@ -100,6 +100,7 @@ public class Board extends JPanel {
     Tree t;
 
     Warp warp;
+    Castle castle;
     StatueBottom statueBottom;
     CobbleStone cobbleStone;
     CobbleStone specialTile;
@@ -265,6 +266,8 @@ public class Board extends JPanel {
         x += SPACE;
       }else if (item == '%') {
         statueBottom = new StatueBottom(x,y);
+        a = new Area(x,y);
+        areas.add(a);
         collidables.add(statueBottom);
         x += SPACE;
       } else if (item == '^') {
@@ -315,6 +318,10 @@ public class Board extends JPanel {
         areas.add(a);
         hert = new Heart(x,y);
         pickHearts.add(hert);
+        x += SPACE;
+      } else if (item == '@') {
+        castle = new Castle(x,y);
+        collidables.add(castle);
         x += SPACE;
       }
     }
